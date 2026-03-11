@@ -112,7 +112,21 @@ export default function GetStarted() {
         {step === 4 && (
           <StepThree
             referral={referral} setReferral={setReferral}
-            onSubmit={() => setStep(5)}
+            onSubmit={async () => {
+              try {
+                await fetch("/api/submit", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    email, fullName, userType, insuranceType, goal,
+                    city, state, industry, employeeCount, phone, comments, referral,
+                  }),
+                });
+              } catch (e) {
+                console.error("Submit error:", e);
+              }
+              setStep(5);
+            }}
             onBack={() => setStep(3)}
           />
         )}
