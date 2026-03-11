@@ -5,9 +5,10 @@
   --foreground: #1a1a2e;
   --accent: #e91e8c;
   --accent-light: #fce4f2;
-  --text-muted: #888;
+  --text-muted: #999;
   --choice-border: #ddd;
-  --choice-color: rgba(30, 30, 80, 0.7);
+  --choice-color: #e91e8c;
+  --choice-placeholder: #bbb;
 }
 
 @theme inline {
@@ -21,74 +22,183 @@ body {
   color: var(--foreground);
 }
 
-/* ---- StoryPrompt-style animations ---- */
+/* ---- Animations ---- */
 
 @keyframes fadeInOpacity {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
-  animation: fadeInOpacity 1.5s ease-in forwards;
+  animation: fadeInOpacity 1s ease-out forwards;
 }
 
-.fade-in-fast {
-  animation: fadeInOpacity 0.6s ease-in forwards;
+/* ---- Sentence heading ---- */
+
+.sentence-heading {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--foreground);
 }
 
-/* Statement line — the inline sentence pieces */
-.statement {
+@media (min-width: 640px) {
+  .sentence-heading {
+    font-size: 45px;
+    line-height: 1.6;
+  }
+}
+
+/* Sentence heading for step 2 (more fields, slightly smaller) */
+.sentence-heading-sm {
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--foreground);
+}
+
+@media (min-width: 640px) {
+  .sentence-heading-sm {
+    font-size: 36px;
+    line-height: 1.7;
+  }
+}
+
+/* ---- Custom Dropdown ---- */
+
+.custom-select {
+  position: relative;
   display: inline;
-  line-height: 1.6;
-  opacity: 1;
-  animation: fadeInOpacity 1s ease-in 1;
 }
 
-/* ---- Sentence select (dropdown inside sentence) ---- */
-
-.sentence-select {
+.custom-select-trigger {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: inherit;
   font-size: inherit;
   font-weight: 300;
-  font-family: inherit;
-  min-width: 140px;
-  color: var(--choice-color);
+  color: var(--choice-placeholder);
+  background: none;
   border: none;
   border-bottom: 3px solid var(--choice-border);
-  background: transparent;
-  padding: 0 22px 2px 0;
-  appearance: none;
+  padding: 0 0 4px 0;
   cursor: pointer;
-  transition: border-color 0.3s ease;
-  outline: none;
-  line-height: 1.6;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  line-height: 1.2;
 }
 
-.sentence-select:focus,
-.sentence-select:hover {
+.custom-select-trigger.has-value {
+  color: var(--choice-color);
+  border-bottom-color: var(--choice-color);
+}
+
+.custom-select-trigger:hover {
   border-bottom-color: var(--accent);
 }
 
-/* Dropdown arrow */
-.select-wrapper {
+.custom-select-arrow {
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: transform 0.2s ease;
   position: relative;
-  display: inline-block;
+  top: -1px;
 }
 
-.select-wrapper::after {
-  content: '';
+/* Dropdown popup */
+.custom-select-dropdown {
   position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid var(--choice-color);
-  pointer-events: none;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 6px;
+  animation: dropdownIn 0.2s ease-out;
 }
 
-/* ---- Pill-style option buttons (referral step) ---- */
+@keyframes dropdownIn {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.custom-select-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--foreground);
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.custom-select-option:hover {
+  background: #f5f5f7;
+}
+
+.custom-select-option.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Scrollbar inside dropdown */
+.custom-select-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-select-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-select-dropdown::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 2px;
+}
+
+/* ---- Inline text input ---- */
+
+.text-field {
+  display: inline-block;
+  vertical-align: baseline;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 300;
+  color: var(--choice-placeholder);
+  border: none;
+  border-bottom: 3px solid var(--choice-border);
+  background: transparent;
+  padding: 0 0 4px 0;
+  outline: none;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  line-height: 1.2;
+}
+
+.text-field.has-value {
+  color: var(--choice-color);
+  border-bottom-color: var(--choice-color);
+}
+
+.text-field:focus {
+  border-bottom-color: var(--accent);
+}
+
+.text-field::placeholder {
+  color: var(--choice-placeholder);
+}
+
+/* ---- Pill buttons (referral) ---- */
 
 .pill-option {
   display: inline-block;
@@ -99,6 +209,7 @@ body {
   cursor: pointer;
   font-size: 16px;
   font-weight: 400;
+  font-family: inherit;
   transition: all 0.25s ease;
   background: #fff;
   color: var(--foreground);
@@ -148,48 +259,52 @@ body {
 
 .divider-text {
   text-transform: uppercase;
-  margin-bottom: 30px;
-  font-size: 14px;
-  letter-spacing: 1.5px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  letter-spacing: 2px;
   color: var(--text-muted);
   font-weight: 500;
 }
 
-/* SVG highlight underline under words */
-.word-highlight {
-  position: relative;
-}
-
-.word-highlight svg {
-  position: absolute;
-  right: 0;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 6px;
-}
-
-/* Text input for fields */
-.text-field {
-  font-size: inherit;
-  font-weight: 300;
+.back-btn {
+  display: inline-block;
   font-family: inherit;
-  width: 100%;
-  max-width: 400px;
-  color: var(--foreground);
+  font-size: 14px;
+  color: var(--text-muted);
+  background: none;
   border: none;
-  border-bottom: 3px solid var(--choice-border);
-  background: transparent;
-  padding: 4px 0;
+  cursor: pointer;
+  margin-bottom: 32px;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: var(--foreground);
+}
+
+/* Comments textarea */
+.comments-field {
+  width: 100%;
+  max-width: 540px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--foreground);
+  border: 2px solid #eee;
+  border-radius: 12px;
+  background: #fafafa;
+  padding: 16px 20px;
   outline: none;
+  resize: none;
   transition: border-color 0.3s ease;
   line-height: 1.6;
 }
 
-.text-field:focus {
-  border-bottom-color: var(--accent);
+.comments-field:focus {
+  border-color: var(--accent);
 }
 
-.text-field::placeholder {
-  color: #ccc;
+.comments-field::placeholder {
+  color: var(--choice-placeholder);
 }
