@@ -2,25 +2,194 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a2e;
+  --accent: #e91e8c;
+  --accent-light: #fce4f2;
+  --text-muted: #888;
+  --choice-border: #ddd;
+  --choice-color: rgba(30, 30, 80, 0.7);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-accent: var(--accent);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ---- StoryPrompt-style animations ---- */
+
+@keyframes fadeInOpacity {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeInOpacity 1.5s ease-in forwards;
+}
+
+.fade-in-fast {
+  animation: fadeInOpacity 0.6s ease-in forwards;
+}
+
+/* Statement line — the inline sentence pieces */
+.statement {
+  display: inline;
+  line-height: 1.6;
+  opacity: 1;
+  animation: fadeInOpacity 1s ease-in 1;
+}
+
+/* ---- Sentence select (dropdown inside sentence) ---- */
+
+.sentence-select {
+  font-size: inherit;
+  font-weight: 300;
+  font-family: inherit;
+  min-width: 140px;
+  color: var(--choice-color);
+  border: none;
+  border-bottom: 3px solid var(--choice-border);
+  background: transparent;
+  padding: 0 22px 2px 0;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  outline: none;
+  line-height: 1.6;
+}
+
+.sentence-select:focus,
+.sentence-select:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* Dropdown arrow */
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--choice-color);
+  pointer-events: none;
+}
+
+/* ---- Pill-style option buttons (referral step) ---- */
+
+.pill-option {
+  display: inline-block;
+  padding: 10px 22px;
+  margin: 5px;
+  border: 2px solid #eee;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 400;
+  transition: all 0.25s ease;
+  background: #fff;
+  color: var(--foreground);
+}
+
+.pill-option:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.pill-option.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---- CTA Button ---- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  border-radius: 50px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.btn-primary:hover {
+  background: #d4187d;
+  box-shadow: 0 4px 20px rgba(233, 30, 140, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ---- Misc ---- */
+
+.divider-text {
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* SVG highlight underline under words */
+.word-highlight {
+  position: relative;
+}
+
+.word-highlight svg {
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+}
+
+/* Text input for fields */
+.text-field {
+  font-size: inherit;
+  font-weight: 300;
+  font-family: inherit;
+  width: 100%;
+  max-width: 400px;
+  color: var(--foreground);
+  border: none;
+  border-bottom: 3px solid var(--choice-border);
+  background: transparent;
+  padding: 4px 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+  line-height: 1.6;
+}
+
+.text-field:focus {
+  border-bottom-color: var(--accent);
+}
+
+.text-field::placeholder {
+  color: #ccc;
 }
