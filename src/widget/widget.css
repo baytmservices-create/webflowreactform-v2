@@ -1,107 +1,112 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --background: #25475E;
-  --foreground: #ffffff;
-  --accent: #FFBF3C;
-  --accent-light: rgba(255, 191, 60, 0.15);
-  --text-muted: #8fb0c2;
-  --choice-border: rgba(255, 255, 255, 0.3);
-  --choice-color: #FFBF3C;
-  --choice-placeholder: rgba(255, 255, 255, 0.5);
+/* ---- Scoped Widget Container ---- */
+
+.ifw {
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #25475E;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  line-height: 1.5;
+
+  --ifw-accent: #FFBF3C;
+  --ifw-accent-light: rgba(255, 191, 60, 0.15);
+  --ifw-text-muted: #8fb0c2;
+  --ifw-choice-border: rgba(255, 255, 255, 0.3);
+  --ifw-choice-color: #FFBF3C;
+  --ifw-choice-placeholder: rgba(255, 255, 255, 0.5);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
+.ifw *, .ifw *::before, .ifw *::after {
+  box-sizing: border-box;
 }
 
-html, body {
-  overflow-x: hidden;
+.ifw-content {
+  width: 100%;
+  max-width: 768px;
+  padding: 64px 32px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+@media (min-width: 640px) {
+  .ifw-content {
+    padding: 96px 32px;
+  }
 }
 
 /* ---- Animations ---- */
 
-@keyframes fadeInOpacity {
+@keyframes ifwFadeIn {
   0% { opacity: 0; transform: translateY(4px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in {
-  animation: fadeInOpacity 1s ease-out forwards;
+.ifw-fade-in {
+  animation: ifwFadeIn 1s ease-out forwards;
 }
 
 /* ---- Sentence heading ---- */
 
-.sentence-heading {
+.ifw-sentence-heading {
   font-size: 32px;
   font-weight: 300;
   line-height: 1.7;
-  color: var(--foreground);
+  color: #ffffff;
+  margin: 0;
 }
 
 @media (min-width: 640px) {
-  .sentence-heading {
+  .ifw-sentence-heading {
     font-size: 45px;
     line-height: 1.6;
   }
 }
 
-/* Sentence heading for step 2 (more fields, slightly smaller) */
-.sentence-heading-sm {
-  font-size: 28px;
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--foreground);
-}
+/* ---- Divider text ---- */
 
-@media (min-width: 640px) {
-  .sentence-heading-sm {
-    font-size: 36px;
-    line-height: 1.7;
-  }
+.ifw-divider-text {
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--ifw-text-muted);
+  font-weight: 500;
 }
 
 /* ---- Custom Dropdown ---- */
 
-.custom-select {
-  position: relative;
-  display: inline;
-}
-
-.custom-select-trigger {
+.ifw-select-trigger {
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
   font-family: inherit;
   font-size: inherit;
   font-weight: 300;
-  color: var(--choice-placeholder);
+  color: var(--ifw-choice-placeholder);
   background: none;
   border: none;
-  border-bottom: 3px solid var(--choice-border);
+  border-bottom: 3px solid var(--ifw-choice-border);
   padding: 0 0 4px 0;
   cursor: pointer;
   transition: border-color 0.3s ease, color 0.3s ease;
   line-height: 1.2;
 }
 
-.custom-select-trigger.has-value {
-  color: var(--choice-color);
-  border-bottom-color: var(--choice-color);
+.ifw-select-trigger.has-value {
+  color: var(--ifw-choice-color);
+  border-bottom-color: var(--ifw-choice-color);
 }
 
-.custom-select-trigger:hover {
-  border-bottom-color: var(--accent);
+.ifw-select-trigger:hover {
+  border-bottom-color: var(--ifw-accent);
 }
 
-.custom-select-arrow {
+.ifw-select-arrow {
   flex-shrink: 0;
   opacity: 0.4;
   transition: transform 0.2s ease;
@@ -109,9 +114,9 @@ body {
   top: -1px;
 }
 
-/* Dropdown popup */
-.custom-select-dropdown {
-  z-index: 1000;
+/* Dropdown popup (portaled to body) */
+.ifw-select-dropdown {
+  z-index: 10000;
   display: flex;
   flex-direction: column;
   min-width: 220px;
@@ -121,40 +126,16 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 6px;
-  animation: dropdownIn 0.2s ease-out;
+  animation: ifwDropdownIn 0.2s ease-out;
+  font-family: 'Poppins', sans-serif;
 }
 
-@keyframes dropdownIn {
+@keyframes ifwDropdownIn {
   0% { opacity: 0; transform: translateY(-6px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.custom-select-search {
-  width: 100%;
-  padding: 10px 14px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px 8px 0 0;
-  outline: none;
-  margin-bottom: 4px;
-}
-
-.custom-select-search::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.custom-select-empty {
-  padding: 10px 16px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.custom-select-option {
+.ifw-select-option {
   display: block;
   width: 100%;
   text-align: left;
@@ -171,43 +152,69 @@ body {
   white-space: nowrap;
 }
 
-.custom-select-option:hover {
+.ifw-select-option:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.custom-select-option.active {
-  background: var(--accent-light);
-  color: var(--accent);
+.ifw-select-option.active {
+  background: var(--ifw-accent-light);
+  color: var(--ifw-accent);
   font-weight: 500;
 }
 
-.custom-select-option.highlighted {
+.ifw-select-option.highlighted {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Search input inside dropdown */
+.ifw-select-search {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px 8px 0 0;
+  outline: none;
+  margin-bottom: 4px;
+}
+
+.ifw-select-search::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ifw-select-empty {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 /* Scrollbar inside dropdown */
-.custom-select-dropdown::-webkit-scrollbar {
+.ifw-select-dropdown::-webkit-scrollbar {
   width: 4px;
 }
-.custom-select-dropdown::-webkit-scrollbar-track {
+.ifw-select-dropdown::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-select-dropdown::-webkit-scrollbar-thumb {
+.ifw-select-dropdown::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.25);
   border-radius: 2px;
 }
 
 /* ---- Inline text input ---- */
 
-.text-field {
+.ifw-text-field {
   display: inline-block;
   vertical-align: baseline;
   font-family: inherit;
   font-size: inherit;
   font-weight: 300;
-  color: var(--choice-placeholder);
+  color: var(--ifw-choice-placeholder);
   border: none;
-  border-bottom: 3px solid var(--choice-border);
+  border-bottom: 3px solid var(--ifw-choice-border);
   background: transparent;
   padding: 0 0 4px 0;
   outline: none;
@@ -215,22 +222,22 @@ body {
   line-height: 1.2;
 }
 
-.text-field.has-value {
-  color: var(--choice-color);
-  border-bottom-color: var(--choice-color);
+.ifw-text-field.has-value {
+  color: var(--ifw-choice-color);
+  border-bottom-color: var(--ifw-choice-color);
 }
 
-.text-field:focus {
-  border-bottom-color: var(--accent);
+.ifw-text-field:focus {
+  border-bottom-color: var(--ifw-accent);
 }
 
-.text-field::placeholder {
-  color: var(--choice-placeholder);
+.ifw-text-field::placeholder {
+  color: var(--ifw-choice-placeholder);
 }
 
 /* ---- Multi-select pill buttons ---- */
 
-.pill-multi {
+.ifw-pill-multi {
   display: inline-block;
   padding: 10px 22px;
   border: 2px solid rgba(255, 255, 255, 0.25);
@@ -244,28 +251,28 @@ body {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.pill-multi:hover {
-  border-color: var(--accent);
-  background: var(--accent-light);
+.ifw-pill-multi:hover {
+  border-color: var(--ifw-accent);
+  background: var(--ifw-accent-light);
   color: #ffffff;
 }
 
-.pill-multi.selected {
-  border-color: var(--accent);
-  background: var(--accent);
+.ifw-pill-multi.selected {
+  border-color: var(--ifw-accent);
+  background: var(--ifw-accent);
   color: #ffffff;
   font-weight: 500;
 }
 
 /* ---- CTA Button ---- */
 
-.btn-primary {
+.ifw-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 14px 36px;
   border-radius: 50px;
-  background: var(--accent);
+  background: var(--ifw-accent);
   color: #fff;
   font-size: 18px;
   font-weight: 600;
@@ -275,33 +282,24 @@ body {
   font-family: inherit;
 }
 
-.btn-primary:hover {
+.ifw-btn-primary:hover {
   background: #E5AB2E;
   box-shadow: 0 4px 20px rgba(255, 191, 60, 0.35);
 }
 
-.btn-primary:disabled {
+.ifw-btn-primary:disabled {
   opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
 }
 
-/* ---- Misc ---- */
+/* ---- Back button ---- */
 
-.divider-text {
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  font-size: 13px;
-  letter-spacing: 2px;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.back-btn {
+.ifw-back-btn {
   display: inline-block;
   font-family: inherit;
   font-size: 14px;
-  color: var(--text-muted);
+  color: var(--ifw-text-muted);
   background: none;
   border: none;
   cursor: pointer;
@@ -310,12 +308,13 @@ body {
   transition: color 0.2s ease;
 }
 
-.back-btn:hover {
+.ifw-back-btn:hover {
   color: #ffffff;
 }
 
-/* Comments textarea */
-.comments-field {
+/* ---- Comments textarea ---- */
+
+.ifw-comments-field {
   width: 100%;
   max-width: 540px;
   font-family: inherit;
@@ -332,66 +331,92 @@ body {
   line-height: 1.6;
 }
 
-.comments-field:focus {
-  border-color: var(--accent);
+.ifw-comments-field:focus {
+  border-color: var(--ifw-accent);
 }
 
-.comments-field::placeholder {
-  color: var(--choice-placeholder);
+.ifw-comments-field::placeholder {
+  color: var(--ifw-choice-placeholder);
+}
+
+/* ---- Subtitle ---- */
+
+.ifw-subtitle {
+  font-size: 18px;
+  color: var(--ifw-text-muted);
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+/* ---- Error text ---- */
+
+.ifw-error-text {
+  font-size: 14px;
+  color: #fbbf24;
+  margin-top: 12px;
+}
+
+/* ---- Success ---- */
+
+.ifw-success {
+  text-align: center;
+  padding: 80px 0;
 }
 
 /* ---- Modal ---- */
 
-.modal-overlay {
+.ifw-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  animation: modalOverlayIn 0.3s ease-out;
+  animation: ifwModalOverlayIn 0.3s ease-out;
+  font-family: 'Poppins', sans-serif;
 }
 
-@keyframes modalOverlayIn {
+@keyframes ifwModalOverlayIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-.modal-card {
+.ifw-modal-card {
   position: relative;
   width: 100%;
   max-width: 720px;
   max-height: 90vh;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--background);
+  background: #25475E;
   border-radius: 20px;
   padding: 40px 32px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  animation: modalCardIn 0.3s ease-out;
+  animation: ifwModalCardIn 0.3s ease-out;
   margin: 16px;
+  color: #ffffff;
 }
 
 @media (min-width: 640px) {
-  .modal-card {
+  .ifw-modal-card {
     padding: 56px;
   }
 }
 
-@keyframes modalCardIn {
+@keyframes ifwModalCardIn {
   0% { opacity: 0; transform: scale(0.96) translateY(10px); }
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.modal-close {
+.ifw-modal-close {
   position: absolute;
   top: 16px;
   right: 20px;
   font-size: 28px;
-  color: var(--text-muted);
+  color: #8fb0c2;
   background: none;
   border: none;
   cursor: pointer;
@@ -400,19 +425,19 @@ body {
   font-family: inherit;
 }
 
-.modal-close:hover {
+.ifw-modal-close:hover {
   color: #ffffff;
 }
 
 /* ---- Progress dots ---- */
 
-.progress-dots {
+.ifw-progress-dots {
   display: flex;
   gap: 8px;
   margin-bottom: 32px;
 }
 
-.progress-dot {
+.ifw-progress-dot {
   width: 8px;
   height: 8px;
   border-radius: 4px;
@@ -420,36 +445,36 @@ body {
   transition: all 0.3s ease;
 }
 
-.progress-dot.active {
+.ifw-progress-dot.active {
   width: 24px;
-  background: var(--accent);
+  background: var(--ifw-accent);
 }
 
-.progress-dot.completed {
-  background: var(--accent);
+.ifw-progress-dot.completed {
+  background: var(--ifw-accent);
 }
 
 /* ---- Spinner ---- */
 
-.spinner {
+.ifw-spinner {
   display: inline-block;
   width: 18px;
   height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  animation: ifwSpin 0.6s linear infinite;
   margin-right: 8px;
   vertical-align: middle;
 }
 
-@keyframes spin {
+@keyframes ifwSpin {
   to { transform: rotate(360deg); }
 }
 
 /* ---- Submit error banner ---- */
 
-.submit-error {
+.ifw-submit-error {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -462,7 +487,7 @@ body {
   flex-wrap: wrap;
 }
 
-.submit-error-retry {
+.ifw-submit-error-retry {
   display: inline-flex;
   align-items: center;
   padding: 6px 16px;
@@ -478,13 +503,13 @@ body {
   margin-left: auto;
 }
 
-.submit-error-retry:hover {
+.ifw-submit-error-retry:hover {
   background: rgba(255, 255, 255, 0.25);
 }
 
 /* ---- Confirm dialog ---- */
 
-.confirm-overlay {
+.ifw-confirm-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -495,22 +520,24 @@ body {
   justify-content: center;
   border-radius: 20px;
   z-index: 10;
-  animation: fadeInOpacity 0.2s ease-out;
+  animation: ifwFadeIn 0.2s ease-out;
 }
 
-.confirm-card {
+.ifw-confirm-card {
   background: #1a3542;
   border-radius: 16px;
   padding: 32px;
   text-align: center;
   max-width: 340px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
 }
 
-.confirm-stay {
+.ifw-confirm-stay {
   padding: 10px 24px;
   border-radius: 50px;
-  background: var(--accent);
+  background: var(--ifw-accent);
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -520,11 +547,11 @@ body {
   transition: all 0.2s ease;
 }
 
-.confirm-stay:hover {
+.ifw-confirm-stay:hover {
   background: #E5AB2E;
 }
 
-.confirm-leave {
+.ifw-confirm-leave {
   padding: 10px 24px;
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.1);
@@ -537,7 +564,7 @@ body {
   transition: all 0.2s ease;
 }
 
-.confirm-leave:hover {
+.ifw-confirm-leave:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
@@ -545,41 +572,41 @@ body {
 /* ---- Mobile responsiveness ---- */
 
 @media (max-width: 480px) {
-  .modal-card {
+  .ifw-modal-card {
     padding: 32px 20px;
     margin: 8px;
     border-radius: 16px;
   }
 
-  .modal-card .sentence-heading {
+  .ifw-modal-card .ifw-sentence-heading {
     font-size: 24px;
     line-height: 1.8;
   }
 
-  .pill-multi {
+  .ifw-pill-multi {
     padding: 12px 18px;
     font-size: 14px;
     min-height: 44px;
   }
 
-  .btn-primary {
+  .ifw-btn-primary {
     padding: 14px 28px;
     font-size: 16px;
     min-height: 44px;
   }
 
-  .back-btn {
+  .ifw-back-btn {
     min-height: 44px;
     padding: 10px 8px;
   }
 
-  .confirm-stay,
-  .confirm-leave {
+  .ifw-confirm-stay,
+  .ifw-confirm-leave {
     min-height: 44px;
     padding: 12px 24px;
   }
 
-  .confirm-card {
+  .ifw-confirm-card {
     margin: 16px;
     padding: 24px;
   }

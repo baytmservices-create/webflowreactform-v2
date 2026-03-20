@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Work_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const workSans = Work_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Get Started - Insurance Quote",
+  title: "Get Started - ALKEME Insurance",
   description: "Answer a few quick questions to get your insurance quote.",
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${workSans.className} antialiased`}>
+      <body className={`${poppins.className} antialiased`}>
         {children}
       </body>
     </html>

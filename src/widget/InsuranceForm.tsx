@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -43,36 +41,29 @@ type Lang = "en" | "es";
 
 const i18n = {
   en: {
-    // Landing
     landingHeading: "Find the right coverage for you.",
     landingSubtext: "Answer a few quick questions to get started.",
     getStarted: "Get Started",
-    // Step labels
     letsGetStarted: "Let's get started",
     tellUsAboutYourself: "Tell us about yourself",
     aboutYourBusiness: "About your business",
     almostDone: "Almost done",
-    // Step 1 sentence
     iAm: "I'm",
     anIndividual: "an individual",
     aBusiness: "a business",
     readyToExplore: "ready to explore insurance and discover the right coverage for me.",
     selectAllThatApply: "Select all that apply",
-    // Step 2 sentence
     myFirstNameIs: "My first name is",
     andMyLastNameIs: "and my last name is",
     iNeedCoverageIn: ". I need coverage in",
-    // Placeholders
     firstName: "first name",
     lastName: "last name",
     city: "city",
     state: "state",
-    // Step 3 sentence
     myBusinessIsIn: "My business is in",
     withEmployees: "employees.",
     industry: "industry",
     count: "count",
-    // Step 4 sentence
     reachMeAt: "Reach me at",
     or: "or",
     phonePlaceholder: "(555) 123-4567",
@@ -83,42 +74,35 @@ const i18n = {
     emailError: "Please enter a valid email address",
     submitError: "Something went wrong. Please try again.",
     tryAgain: "Try Again",
-    // Buttons
-    continue: "Continue →",
-    submit: "Submit →",
+    continue: "Continue \u2192",
+    submit: "Submit \u2192",
     submitting: "Submitting...",
     done: "Done",
-    back: "← Back",
+    back: "\u2190 Back",
     stay: "Stay",
     close: "Close",
-    // Confirm dialog
     closeTheForm: "Close the form?",
     progressSaved: "Your progress has been saved. You can pick up where you left off.",
-    // Success
     allSet: "You're all set",
     weReceived: "We've received your information and will be in touch soon.",
-    // Comments
-    // Search
     typeToSearch: "Type to search...",
     noResults: "No results",
-    // Modal aria
     modalAriaLabel: "Insurance quote form",
-    // Language toggle
     langToggleEn: "EN",
     langToggleEs: "ES",
   },
   es: {
     landingHeading: "Encuentra la cobertura adecuada para ti.",
-    landingSubtext: "Responde unas preguntas rápidas para comenzar.",
+    landingSubtext: "Responde unas preguntas r\u00e1pidas para comenzar.",
     getStarted: "Comenzar",
     letsGetStarted: "Empecemos",
-    tellUsAboutYourself: "Cuéntanos sobre ti",
+    tellUsAboutYourself: "Cu\u00e9ntanos sobre ti",
     aboutYourBusiness: "Sobre tu negocio",
     almostDone: "Casi listo",
     iAm: "Soy",
     anIndividual: "un individuo",
     aBusiness: "una empresa",
-    readyToExplore: "listo para explorar seguros y encontrar la cobertura correcta para mí.",
+    readyToExplore: "listo para explorar seguros y encontrar la cobertura correcta para m\u00ed.",
     selectAllThatApply: "Selecciona todas las que apliquen",
     myFirstNameIs: "Mi nombre es",
     andMyLastNameIs: "y mi apellido es",
@@ -127,34 +111,34 @@ const i18n = {
     lastName: "apellido",
     city: "ciudad",
     state: "estado",
-    myBusinessIsIn: "Mi negocio está en",
+    myBusinessIsIn: "Mi negocio est\u00e1 en",
     withEmployees: "empleados.",
     industry: "industria",
     count: "cantidad",
-    reachMeAt: "Contáctame al",
+    reachMeAt: "Cont\u00e1ctame al",
     or: "o",
     phonePlaceholder: "(555) 123-4567",
     emailPlaceholder: "correo@ejemplo.com",
-    anythingElse: "¿Algo más que debamos saber? (opcional)",
-    typeYourMessage: "Escribe tu mensaje aquí...",
-    phoneError: "Por favor ingresa un número de teléfono válido (10 dígitos de EE.UU.)",
-    emailError: "Por favor ingresa una dirección de correo electrónico válida",
-    submitError: "Algo salió mal. Por favor, intenta de nuevo.",
+    anythingElse: "\u00bfAlgo m\u00e1s que debamos saber? (opcional)",
+    typeYourMessage: "Escribe tu mensaje aqu\u00ed...",
+    phoneError: "Por favor ingresa un n\u00famero de tel\u00e9fono v\u00e1lido (10 d\u00edgitos de EE.UU.)",
+    emailError: "Por favor ingresa una direcci\u00f3n de correo electr\u00f3nico v\u00e1lida",
+    submitError: "Algo sali\u00f3 mal. Por favor, intenta de nuevo.",
     tryAgain: "Intentar de nuevo",
-    continue: "Continuar →",
-    submit: "Enviar →",
+    continue: "Continuar \u2192",
+    submit: "Enviar \u2192",
     submitting: "Enviando...",
     done: "Listo",
-    back: "← Atrás",
+    back: "\u2190 Atr\u00e1s",
     stay: "Quedarse",
     close: "Cerrar",
-    closeTheForm: "¿Cerrar el formulario?",
+    closeTheForm: "\u00bfCerrar el formulario?",
     progressSaved: "Tu progreso ha sido guardado. Puedes retomarlo donde lo dejaste.",
-    allSet: "¡Todo listo",
-    weReceived: "Hemos recibido tu información y nos comunicaremos pronto.",
+    allSet: "\u00a1Todo listo",
+    weReceived: "Hemos recibido tu informaci\u00f3n y nos comunicaremos pronto.",
     typeToSearch: "Escribe para buscar...",
     noResults: "Sin resultados",
-    modalAriaLabel: "Formulario de cotización de seguro",
+    modalAriaLabel: "Formulario de cotizaci\u00f3n de seguro",
     langToggleEn: "EN",
     langToggleEs: "ES",
   },
@@ -190,7 +174,7 @@ function Confetti() {
   return (
     <>
       <style>{`
-        @keyframes confettiFall {
+        @keyframes ifwConfettiFall {
           0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
           80%  { opacity: 1; }
           100% { transform: translateY(340px) rotate(720deg); opacity: 0; }
@@ -217,7 +201,7 @@ function Confetti() {
               height: p.size * 0.5,
               backgroundColor: p.color,
               borderRadius: 2,
-              animation: `confettiFall ${p.duration}s ${p.delay}s ease-in forwards`,
+              animation: `ifwConfettiFall ${p.duration}s ${p.delay}s ease-in forwards`,
             }}
           />
         ))}
@@ -228,7 +212,7 @@ function Confetti() {
 
 // ---- Main Component ----
 
-export default function GetStarted() {
+export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
@@ -411,7 +395,6 @@ export default function GetStarted() {
     (step === 3 && businessComplete) ||
     (step === 4 && contactComplete);
 
-  // Progress dots
   const totalSteps = isBusiness ? 4 : 3;
   const currentDot = step === 1 ? 0 : step === 2 ? 1 : step === 3 ? 2 : (isBusiness ? 3 : 2);
 
@@ -441,7 +424,7 @@ export default function GetStarted() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
-      const res = await fetch("/api/submit", {
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: controller.signal,
@@ -467,7 +450,6 @@ export default function GetStarted() {
     setStep(5);
   };
 
-  // Close with confirmation
   const hasData = !!(userType || firstName || lastName || city || state || phone || email);
 
   // Beforeunload warning when user has entered data
@@ -498,12 +480,11 @@ export default function GetStarted() {
     if (!hasData) { setStep(1); setDirection("forward"); }
   };
 
-  // Keyboard: Enter to advance
   const handleModalKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== "Enter" || submitting) return;
     const el = e.target as HTMLElement;
     if (el.tagName === "TEXTAREA") return;
-    if (el.classList.contains("custom-select-search")) return;
+    if (el.classList.contains("ifw-select-search")) return;
     if (!canAdvance) return;
     e.preventDefault();
     if (step === 4) handleSubmit();
@@ -514,22 +495,24 @@ export default function GetStarted() {
   const userTypeLabel = userType === "individual" ? t.anIndividual : userType === "business" ? t.aBusiness : "";
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--background)" }}>
-      {/* Landing */}
-      <div className="text-center fade-in">
-        <div className="mb-10 flex justify-center">
-          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <rect width="60" height="60" rx="14" fill="#FFBF3C" />
-            <path d="M18 30 L26.5 38.5 L42 22" stroke="#25475E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+    <div className="ifw">
+      <div className="ifw-content" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {/* Landing */}
+        <div className="ifw-fade-in" style={{ textAlign: "center" }}>
+          <div style={{ marginBottom: 40, display: "flex", justifyContent: "center" }}>
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <rect width="60" height="60" rx="14" fill="#FFBF3C" />
+              <path d="M18 30 L26.5 38.5 L42 22" stroke="#25475E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <h1 className="ifw-sentence-heading" style={{ marginBottom: 16 }}>{t.landingHeading}</h1>
+          <p className="ifw-subtitle" style={{ marginBottom: 40 }}>
+            {t.landingSubtext}
+          </p>
+          <button className="ifw-btn-primary" aria-label={t.getStarted} onClick={handleOpen}>
+            {t.getStarted}
+          </button>
         </div>
-        <h1 className="sentence-heading mb-4">{t.landingHeading}</h1>
-        <p className="text-lg font-light mb-10" style={{ color: "var(--text-muted)" }}>
-          {t.landingSubtext}
-        </p>
-        <button className="btn-primary" aria-label={t.getStarted} onClick={handleOpen}>
-          {t.getStarted}
-        </button>
       </div>
 
       {/* Aria live region */}
@@ -543,14 +526,14 @@ export default function GetStarted() {
       </div>
 
       {/* Modal */}
-      {modalOpen && (
+      {modalOpen && createPortal(
         <div
-          className="modal-overlay"
+          className="ifw-modal-overlay"
           onClick={(e) => { if (e.target === e.currentTarget) tryClose(); }}
         >
           <div
             ref={modalCardRef}
-            className="modal-card"
+            className="ifw-modal-card"
             role="dialog"
             aria-modal="true"
             aria-label={t.modalAriaLabel}
@@ -558,7 +541,7 @@ export default function GetStarted() {
             onKeyDown={handleModalKeyDown}
           >
             {step < 5 && (
-              <button className="modal-close" onClick={tryClose} aria-label={t.close}>
+              <button className="ifw-modal-close" onClick={tryClose} aria-label={t.close}>
                 &times;
               </button>
             )}
@@ -570,7 +553,7 @@ export default function GetStarted() {
                 <button
                   type="button"
                   onClick={toggleLang}
-                  aria-label={lang === "en" ? "Switch to Spanish" : "Cambiar a inglés"}
+                  aria-label={lang === "en" ? "Switch to Spanish" : "Cambiar a ingl\u00e9s"}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -586,17 +569,17 @@ export default function GetStarted() {
                   <span style={{
                     fontSize: 12,
                     fontWeight: lang === "en" ? 700 : 400,
-                    color: lang === "en" ? "var(--accent)" : "var(--text-muted)",
+                    color: lang === "en" ? "var(--ifw-accent)" : "var(--ifw-text-muted)",
                     letterSpacing: 1,
                     transition: "color 0.2s",
                   }}>
                     {t.langToggleEn}
                   </span>
-                  <span style={{ fontSize: 12, color: "var(--text-muted)" }}>|</span>
+                  <span style={{ fontSize: 12, color: "var(--ifw-text-muted)" }}>|</span>
                   <span style={{
                     fontSize: 12,
                     fontWeight: lang === "es" ? 700 : 400,
-                    color: lang === "es" ? "var(--accent)" : "var(--text-muted)",
+                    color: lang === "es" ? "var(--ifw-accent)" : "var(--ifw-text-muted)",
                     letterSpacing: 1,
                     transition: "color 0.2s",
                   }}>
@@ -605,9 +588,9 @@ export default function GetStarted() {
                 </button>
 
                 {/* Progress dots */}
-                <div className="progress-dots" style={{ marginBottom: 0 }}>
+                <div className="ifw-progress-dots" style={{ marginBottom: 0 }}>
                   {Array.from({ length: totalSteps }, (_, i) => (
-                    <div key={i} className={`progress-dot ${i === currentDot ? "active" : ""} ${i < currentDot ? "completed" : ""}`} />
+                    <div key={i} className={`ifw-progress-dot ${i === currentDot ? "active" : ""} ${i < currentDot ? "completed" : ""}`} />
                   ))}
                 </div>
               </div>
@@ -615,34 +598,34 @@ export default function GetStarted() {
 
             {step === 1 && (
               <ModalStep key="step1" direction={direction}>
-                <div className="divider-text fade-in">{t.letsGetStarted}</div>
+                <div className="ifw-divider-text ifw-fade-in">{t.letsGetStarted}</div>
 
-                <h1 className="sentence-heading">
+                <h1 className="ifw-sentence-heading">
                   {t.iAm}{" "}
                   <SentenceSelect
                     value={userTypeLabel}
                     onChange={(label) => {
-                      // Map display label back to internal value
                       const internal = label === t.anIndividual ? "individual" : label === t.aBusiness ? "business" : label;
                       handleUserTypeChange(internal);
                     }}
                     options={[t.anIndividual, t.aBusiness]}
                     placeholder="select one"
                     ariaLabel="I am"
+                    t={t}
                   />
                   {userType && (
-                    <span className="fade-in">
+                    <span className="ifw-fade-in">
                       {" "}{t.readyToExplore}
                     </span>
                   )}
                 </h1>
 
                 {userType && (
-                  <div className="mt-8 fade-in">
-                    <p className="divider-text" style={{ marginBottom: 16 }}>
+                  <div style={{ marginTop: 32 }} className="ifw-fade-in">
+                    <p className="ifw-divider-text" style={{ marginBottom: 16 }}>
                       {t.selectAllThatApply}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                       {(isBusiness ? INSURANCE_TYPES_BUSINESS : INSURANCE_TYPES_INDIVIDUAL).map((type) => {
                         const selected = insuranceTypes.includes(type);
                         return (
@@ -651,11 +634,10 @@ export default function GetStarted() {
                             type="button"
                             aria-pressed={selected}
                             aria-label={type}
-                            className={`pill-multi ${selected ? "selected pill-bounce" : ""}`}
+                            className={`ifw-pill-multi ${selected ? "selected ifw-pill-bounce" : ""}`}
                             onClick={() => toggleInsuranceType(type)}
                             onAnimationEnd={(e) => {
-                              // Remove bounce class after animation so it can re-trigger
-                              (e.currentTarget as HTMLButtonElement).classList.remove("pill-bounce");
+                              (e.currentTarget as HTMLButtonElement).classList.remove("ifw-pill-bounce");
                             }}
                           >
                             {selected && (
@@ -679,9 +661,9 @@ export default function GetStarted() {
                 )}
 
                 {sentenceComplete && (
-                  <div className="mt-10 fade-in">
+                  <div style={{ marginTop: 40 }} className="ifw-fade-in">
                     <button
-                      className="btn-primary"
+                      className="ifw-btn-primary"
                       aria-label={t.continue}
                       onClick={nextStep}
                     >
@@ -694,10 +676,10 @@ export default function GetStarted() {
 
             {step === 2 && (
               <ModalStep key="step2" direction={direction}>
-                <button onClick={prevStep} className="back-btn" aria-label={t.back}>{t.back}</button>
-                <div className="divider-text fade-in">{t.tellUsAboutYourself}</div>
+                <button onClick={prevStep} className="ifw-back-btn" aria-label={t.back}>{t.back}</button>
+                <div className="ifw-divider-text ifw-fade-in">{t.tellUsAboutYourself}</div>
 
-                <h1 className="sentence-heading">
+                <h1 className="ifw-sentence-heading">
                   {t.myFirstNameIs}{" "}
                   <InlineInput
                     value={firstName}
@@ -708,7 +690,7 @@ export default function GetStarted() {
                     autoComplete="given-name"
                   />
                   {firstName.trim().length > 0 && (
-                    <span className="fade-in">
+                    <span className="ifw-fade-in">
                       {" "}{t.andMyLastNameIs}{" "}
                       <InlineInput
                         value={lastName}
@@ -720,7 +702,7 @@ export default function GetStarted() {
                     </span>
                   )}
                   {lastName.trim().length > 0 && (
-                    <span className="fade-in">
+                    <span className="ifw-fade-in">
                       {t.iNeedCoverageIn}{" "}
                       <InlineInput
                         value={city}
@@ -737,6 +719,7 @@ export default function GetStarted() {
                         placeholder={t.state}
                         searchable
                         ariaLabel="State"
+                        t={t}
                       />
                     </span>
                   )}
@@ -744,9 +727,9 @@ export default function GetStarted() {
                 </h1>
 
                 {personalComplete && (
-                  <div className="mt-10 fade-in">
+                  <div style={{ marginTop: 40 }} className="ifw-fade-in">
                     <button
-                      className="btn-primary"
+                      className="ifw-btn-primary"
                       aria-label={t.continue}
                       onClick={nextStep}
                     >
@@ -759,10 +742,10 @@ export default function GetStarted() {
 
             {step === 3 && (
               <ModalStep key="step3" direction={direction}>
-                <button onClick={prevStep} className="back-btn" aria-label={t.back}>{t.back}</button>
-                <div className="divider-text fade-in">{t.aboutYourBusiness}</div>
+                <button onClick={prevStep} className="ifw-back-btn" aria-label={t.back}>{t.back}</button>
+                <div className="ifw-divider-text ifw-fade-in">{t.aboutYourBusiness}</div>
 
-                <h1 className="sentence-heading">
+                <h1 className="ifw-sentence-heading">
                   {t.myBusinessIsIn}{" "}
                   <SentenceSelect
                     value={industry}
@@ -770,9 +753,10 @@ export default function GetStarted() {
                     options={INDUSTRIES}
                     placeholder={t.industry}
                     ariaLabel="Industry"
+                    t={t}
                   />
                   {industry && (
-                    <span className="fade-in">
+                    <span className="ifw-fade-in">
                       {" "}with{" "}
                       <SentenceSelect
                         value={employeeCount}
@@ -780,6 +764,7 @@ export default function GetStarted() {
                         options={EMPLOYEE_COUNTS}
                         placeholder={t.count}
                         ariaLabel="Employee count"
+                        t={t}
                       />
                       {" "}{t.withEmployees}
                     </span>
@@ -787,9 +772,9 @@ export default function GetStarted() {
                 </h1>
 
                 {businessComplete && (
-                  <div className="mt-10 fade-in">
+                  <div style={{ marginTop: 40 }} className="ifw-fade-in">
                     <button
-                      className="btn-primary"
+                      className="ifw-btn-primary"
                       aria-label={t.continue}
                       onClick={nextStep}
                     >
@@ -802,10 +787,10 @@ export default function GetStarted() {
 
             {step === 4 && (
               <ModalStep key="step4" direction={direction}>
-                <button onClick={prevStep} className="back-btn" aria-label={t.back}>{t.back}</button>
-                <div className="divider-text fade-in">{t.almostDone}</div>
+                <button onClick={prevStep} className="ifw-back-btn" aria-label={t.back}>{t.back}</button>
+                <div className="ifw-divider-text ifw-fade-in">{t.almostDone}</div>
 
-                <h1 className="sentence-heading">
+                <h1 className="ifw-sentence-heading">
                   {t.reachMeAt}{" "}
                   <PhoneInput
                     value={phone}
@@ -818,7 +803,7 @@ export default function GetStarted() {
                     ariaDescribedBy={phoneTouched && phone.length > 0 && !phoneValid ? "ifw-phone-error" : undefined}
                   />
                   {phoneValid && (
-                    <span className="fade-in">
+                    <span className="ifw-fade-in">
                       {" "}{t.or}{" "}
                       <InlineInput
                         value={email}
@@ -836,7 +821,7 @@ export default function GetStarted() {
                 </h1>
 
                 {phoneTouched && phone.length > 0 && !phoneValid && (
-                  <p id="ifw-phone-error" className="text-sm text-orange-300 mt-3 fade-in" role="alert">
+                  <p id="ifw-phone-error" className="ifw-error-text ifw-fade-in" role="alert">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }}>
                       <path d="M8 1.5L14.5 13.5H1.5L8 1.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                       <path d="M8 6.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -846,7 +831,7 @@ export default function GetStarted() {
                   </p>
                 )}
                 {emailTouched && email.trim().length > 0 && !emailValid && (
-                  <p id="ifw-email-error" className="text-sm text-orange-300 mt-1 fade-in" role="alert">
+                  <p id="ifw-email-error" className="ifw-error-text ifw-fade-in" role="alert">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }}>
                       <path d="M8 1.5L14.5 13.5H1.5L8 1.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                       <path d="M8 6.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -857,12 +842,12 @@ export default function GetStarted() {
                 )}
 
                 {contactComplete && (
-                  <div className="mt-8 fade-in">
-                    <p className="text-lg font-light mb-4" style={{ color: "var(--text-muted)" }}>
+                  <div style={{ marginTop: 32 }} className="ifw-fade-in">
+                    <p className="ifw-subtitle" style={{ marginBottom: 16 }}>
                       {t.anythingElse}
                     </p>
                     <textarea
-                      className="comments-field"
+                      className="ifw-comments-field"
                       rows={3}
                       placeholder={t.typeYourMessage}
                       value={comments}
@@ -870,35 +855,35 @@ export default function GetStarted() {
                       maxLength={500}
                       aria-label="Additional comments"
                     />
-                    <div style={{ fontSize: 13, marginTop: 8, color: comments.length >= 475 ? "#fbbf24" : "var(--text-muted)", transition: "color 0.2s ease" }}>
+                    <div style={{ fontSize: 13, marginTop: 8, color: comments.length >= 475 ? "#fbbf24" : "var(--ifw-text-muted)", transition: "color 0.2s ease" }}>
                       {comments.length} / 500
                     </div>
                   </div>
                 )}
 
                 {submitError && contactComplete && (
-                  <div className="submit-error fade-in" role="alert" style={{ marginTop: 20 }}>
+                  <div className="ifw-submit-error ifw-fade-in" role="alert" style={{ marginTop: 20 }}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
                       <path d="M8 1.5L14.5 13.5H1.5L8 1.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
                       <path d="M8 6.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                       <circle cx="8" cy="11.5" r="0.75" fill="currentColor" />
                     </svg>
                     <span>{t.submitError}</span>
-                    <button type="button" className="submit-error-retry" onClick={handleSubmit}>
+                    <button type="button" className="ifw-submit-error-retry" onClick={handleSubmit}>
                       {t.tryAgain}
                     </button>
                   </div>
                 )}
 
                 {contactComplete && (
-                  <div className="mt-8 fade-in">
+                  <div style={{ marginTop: 32 }} className="ifw-fade-in">
                     <button
-                      className="btn-primary"
+                      className="ifw-btn-primary"
                       onClick={handleSubmit}
                       disabled={submitting}
                       aria-label={submitting ? t.submitting : t.submit}
                     >
-                      {submitting && <span className="spinner" />}
+                      {submitting && <span className="ifw-spinner" />}
                       {submitting ? t.submitting : t.submit}
                     </button>
                   </div>
@@ -909,17 +894,17 @@ export default function GetStarted() {
             {step === 5 && (
               <ModalStep key="step5" direction="forward">
                 <Confetti />
-                <div className="text-center py-10" style={{ position: "relative" }}>
-                  <div className="text-6xl mb-6 fade-in">&#127881;</div>
-                  <h1 className="sentence-heading mb-4 fade-in">
+                <div className="ifw-success" style={{ position: "relative" }}>
+                  <div style={{ fontSize: 60, marginBottom: 24 }} className="ifw-fade-in">&#127881;</div>
+                  <h1 className="ifw-sentence-heading ifw-fade-in" style={{ marginBottom: 16 }}>
                     {t.allSet}, {firstName}!
                   </h1>
-                  <p className="text-xl font-light fade-in" style={{ color: "var(--text-muted)", animationDelay: "0.5s", animationFillMode: "both" }}>
+                  <p className="ifw-subtitle ifw-fade-in" style={{ fontSize: 20, animationDelay: "0.5s", animationFillMode: "both" }}>
                     {t.weReceived}
                   </p>
-                  <div className="mt-8 fade-in" style={{ animationDelay: "0.8s", animationFillMode: "both" }}>
+                  <div className="ifw-fade-in" style={{ marginTop: 32, animationDelay: "0.8s", animationFillMode: "both" }}>
                     <button
-                      className="btn-primary"
+                      className="ifw-btn-primary"
                       aria-label={t.done}
                       onClick={() => setModalOpen(false)}
                     >
@@ -932,33 +917,34 @@ export default function GetStarted() {
 
             {/* Confirm close dialog */}
             {showConfirm && (
-              <div className="confirm-overlay" role="alertdialog" aria-modal="true" aria-label="Confirm close">
-                <div className="confirm-card">
-                  <h3 className="text-xl font-semibold mb-2">{t.closeTheForm}</h3>
-                  <p className="text-sm mb-6" style={{ color: "var(--text-muted)" }}>
+              <div className="ifw-confirm-overlay" role="alertdialog" aria-modal="true" aria-label="Confirm close">
+                <div className="ifw-confirm-card">
+                  <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 8 }}>{t.closeTheForm}</h3>
+                  <p style={{ fontSize: 14, color: "#8fb0c2", marginBottom: 24 }}>
                     {t.progressSaved}
                   </p>
-                  <div className="flex gap-3 justify-center">
-                    <button className="confirm-stay" aria-label={t.stay} onClick={() => setShowConfirm(false)}>{t.stay}</button>
-                    <button className="confirm-leave" aria-label={t.close} onClick={confirmClose}>{t.close}</button>
+                  <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
+                    <button className="ifw-confirm-stay" aria-label={t.stay} onClick={() => setShowConfirm(false)}>{t.stay}</button>
+                    <button className="ifw-confirm-leave" aria-label={t.close} onClick={confirmClose}>{t.close}</button>
                   </div>
                 </div>
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
 
       {/* Global pill-bounce keyframes injected once */}
       <style>{`
-        @keyframes pillBounce {
+        @keyframes ifwPillBounce {
           0%   { transform: scale(1); }
           40%  { transform: scale(1.18); }
           70%  { transform: scale(0.93); }
           100% { transform: scale(1); }
         }
-        .pill-bounce {
-          animation: pillBounce 0.32s ease-out !important;
+        .ifw-pill-bounce {
+          animation: ifwPillBounce 0.32s ease-out !important;
         }
       `}</style>
     </div>
@@ -966,7 +952,7 @@ export default function GetStarted() {
 }
 
 // ============================================================
-// Modal Step Wrapper (slide animation)
+// Modal Step Wrapper
 // ============================================================
 
 function ModalStep({ children, direction }: { children: React.ReactNode; direction: "forward" | "back" }) {
@@ -989,10 +975,11 @@ function ModalStep({ children, direction }: { children: React.ReactNode; directi
 // ============================================================
 
 function SentenceSelect({
-  value, onChange, options, placeholder, searchable = false, ariaLabel,
+  value, onChange, options, placeholder, searchable = false, ariaLabel, t,
 }: {
   value: string; onChange: (v: string) => void;
   options: string[]; placeholder: string; searchable?: boolean; ariaLabel?: string;
+  t: (typeof i18n)[Lang];
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -1096,21 +1083,21 @@ function SentenceSelect({
       <button
         ref={triggerRef}
         type="button"
-        className={`custom-select-trigger ${value ? "has-value" : ""}`}
+        className={`ifw-select-trigger ${value ? "has-value" : ""}`}
         aria-label={ariaLabel ?? placeholder}
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
         {value || placeholder}
-        <svg className="custom-select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+        <svg className="ifw-select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
           <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       {open && createPortal(
         <div
           ref={dropdownRef}
-          className="custom-select-dropdown"
+          className="ifw-select-dropdown"
           role="listbox"
           aria-label={ariaLabel ?? placeholder}
           aria-activedescendant={highlightedIndex >= 0 ? `ifw-opt-${highlightedIndex}` : undefined}
@@ -1120,8 +1107,8 @@ function SentenceSelect({
             <input
               ref={searchInputRef}
               type="text"
-              className="custom-select-search"
-              placeholder="Type to search..."
+              className="ifw-select-search"
+              placeholder={t.typeToSearch}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Search options"
@@ -1134,7 +1121,7 @@ function SentenceSelect({
               role="option"
               id={`ifw-opt-${idx}`}
               aria-selected={value === opt}
-              className={`custom-select-option ${value === opt ? "active" : ""} ${idx === highlightedIndex ? "highlighted" : ""}`}
+              className={`ifw-select-option ${value === opt ? "active" : ""} ${idx === highlightedIndex ? "highlighted" : ""}`}
               onClick={() => { onChange(opt); setOpen(false); }}
               onMouseEnter={() => setHighlightedIndex(idx)}
               ref={(el) => { if (idx === highlightedIndex && el) el.scrollIntoView({ block: "nearest" }); }}
@@ -1143,7 +1130,7 @@ function SentenceSelect({
             </button>
           ))}
           {searchable && filtered.length === 0 && (
-            <div className="custom-select-empty">No results</div>
+            <div className="ifw-select-empty">{t.noResults}</div>
           )}
         </div>,
         document.body,
@@ -1168,7 +1155,7 @@ function InlineInput({
   return (
     <input
       type={type}
-      className={`text-field ${value ? "has-value" : ""}`}
+      className={`ifw-text-field ${value ? "has-value" : ""}`}
       style={{ width: `${charCount + 1}ch` }}
       placeholder={placeholder}
       value={value}
@@ -1205,7 +1192,7 @@ function PhoneInput({
   return (
     <input
       type="tel"
-      className={`text-field ${value ? "has-value" : ""}`}
+      className={`ifw-text-field ${value ? "has-value" : ""}`}
       style={{ width: `${charCount + 1}ch` }}
       placeholder={placeholder}
       value={displayValue}

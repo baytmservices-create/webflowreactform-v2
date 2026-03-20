@@ -1,19 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { TrackClient, RegionUS } from "customerio-node";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
 const cio = new TrackClient(
   process.env.CUSTOMERIO_SITE_ID!,
   process.env.CUSTOMERIO_API_KEY!,
   { region: RegionUS }
 );
 
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers: corsHeaders });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { email, fullName, userType, insuranceType, goal, city, state, industry, employeeCount, phone, comments, referral } = body;
+    const { email, fullName, userType, insuranceType, city, state, industry, employeeCount, phone, comments } = body;
 
     if (!email || !fullName) {
-      return NextResponse.json({ error: "Email and name are required" }, { status: 400 });
+      return NextResponse.json({ error: "Email and name are required" }, { status: 400, headers: corsHeaders });
     }
 
     // Identify (create or update) the person in Customer.io
@@ -23,14 +33,12 @@ export async function POST(req: NextRequest) {
       first_name: fullName.split(" ")[0],
       user_type: userType,
       insurance_type: insuranceType,
-      goal,
       city,
       state,
       industry: industry || undefined,
       employee_count: employeeCount || undefined,
       phone,
       comments: comments || undefined,
-      referral,
       created_at: Math.floor(Date.now() / 1000),
     });
 
@@ -40,13 +48,12 @@ export async function POST(req: NextRequest) {
       data: {
         insurance_type: insuranceType,
         user_type: userType,
-        referral,
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true }, { headers: corsHeaders });
   } catch (error) {
     console.error("Customer.io error:", error);
-    return NextResponse.json({ error: "Failed to submit" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to submit" }, { status: 500, headers: corsHeaders });
   }
 }
