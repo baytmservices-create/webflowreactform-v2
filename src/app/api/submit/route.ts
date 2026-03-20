@@ -28,10 +28,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email and name are required" }, { status: 400, headers: corsHeaders });
     }
 
-    if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_API_KEY) {
-      console.error("Missing CUSTOMERIO_SITE_ID or CUSTOMERIO_API_KEY env vars");
-      return NextResponse.json({ error: "Server configuration error" }, { status: 500, headers: corsHeaders });
+    const siteId = process.env.CUSTOMERIO_SITE_ID;
+    const apiKey = process.env.CUSTOMERIO_API_KEY;
+
+    if (!siteId || !apiKey) {
+      console.error("Missing env vars", { hasSiteId: !!siteId, hasApiKey: !!apiKey });
+      return NextResponse.json({ error: "Server configuration error", hasSiteId: !!siteId, hasApiKey: !!apiKey }, { status: 500, headers: corsHeaders });
     }
+
+    console.log("Using credentials:", { siteIdPrefix: siteId.substring(0, 4), apiKeyPrefix: apiKey.substring(0, 4) });
 
     const cio = getCioClient();
 
