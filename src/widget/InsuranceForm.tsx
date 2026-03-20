@@ -61,6 +61,7 @@ const i18n = {
     city: "city",
     state: "state",
     myBusinessIsIn: "My business is in",
+    with: "with",
     withEmployees: "employees.",
     industry: "industry",
     count: "count",
@@ -112,6 +113,7 @@ const i18n = {
     city: "ciudad",
     state: "estado",
     myBusinessIsIn: "Mi negocio est\u00e1 en",
+    with: "con",
     withEmployees: "empleados.",
     industry: "industria",
     count: "cantidad",
@@ -480,7 +482,21 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
     if (!hasData) { setStep(1); setDirection("forward"); }
   };
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (!modalOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [modalOpen]);
+
   const handleModalKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      if (showConfirm) setShowConfirm(false);
+      else tryClose();
+      return;
+    }
     if (e.key !== "Enter" || submitting) return;
     const el = e.target as HTMLElement;
     if (el.tagName === "TEXTAREA") return;
@@ -495,7 +511,7 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
   const userTypeLabel = userType === "individual" ? t.anIndividual : userType === "business" ? t.aBusiness : "";
 
   return (
-    <div className="ifw">
+    <div className="ifw" lang={lang}>
       <div className="ifw-content" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         {/* Landing */}
         <div className="ifw-fade-in" style={{ textAlign: "center" }}>
@@ -529,6 +545,7 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
       {modalOpen && createPortal(
         <div
           className="ifw-modal-overlay"
+          lang={lang}
           onClick={(e) => { if (e.target === e.currentTarget) tryClose(); }}
         >
           <div
@@ -757,7 +774,7 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
                   />
                   {industry && (
                     <span className="ifw-fade-in">
-                      {" "}with{" "}
+                      {" "}{t.with}{" "}
                       <SentenceSelect
                         value={employeeCount}
                         onChange={setEmployeeCount}
@@ -957,7 +974,11 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
 
 function ModalStep({ children, direction }: { children: React.ReactNode; direction: "forward" | "back" }) {
   const [show, setShow] = useState(false);
+  const prefersReduced = useRef(
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ).current;
   useEffect(() => { setShow(true); }, []);
+  if (prefersReduced) return <div>{children}</div>;
   const startX = direction === "forward" ? 40 : -40;
   return (
     <div style={{
@@ -988,6 +1009,9 @@ function SentenceSelect({
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [search, setSearch] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const idPrefix = useRef(`ifw-${Math.random().toString(36).slice(2, 7)}`).current;
+
+  const closeAndFocus = () => { setOpen(false); setTimeout(() => triggerRef.current?.focus(), 0); };
 
   const filtered = searchable && search
     ? options.filter((o) => o.toLowerCase().includes(search.toLowerCase()))
@@ -1002,7 +1026,7 @@ function SentenceSelect({
         triggerRef.current && !triggerRef.current.contains(e.target as Node) &&
         dropdownRef.current && !dropdownRef.current.contains(e.target as Node)
       ) {
-        setOpen(false);
+        closeAndFocus();
       }
     }
     document.addEventListener("mousedown", handleClick);
@@ -1012,7 +1036,7 @@ function SentenceSelect({
   useEffect(() => {
     if (!open) return;
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key === "Escape") { closeAndFocus(); return; }
       if (filtered.length === 0) return;
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -1025,12 +1049,12 @@ function SentenceSelect({
           e.preventDefault();
           e.stopPropagation();
           onChange(filtered[highlightedIndex]);
-          setOpen(false);
+          closeAndFocus();
         } else if (filtered.length === 1) {
           e.preventDefault();
           e.stopPropagation();
           onChange(filtered[0]);
-          setOpen(false);
+          closeAndFocus();
         }
       }
     }
@@ -1100,7 +1124,7 @@ function SentenceSelect({
           className="ifw-select-dropdown"
           role="listbox"
           aria-label={ariaLabel ?? placeholder}
-          aria-activedescendant={highlightedIndex >= 0 ? `ifw-opt-${highlightedIndex}` : undefined}
+          aria-activedescendant={highlightedIndex >= 0 ? `${idPrefix}-${highlightedIndex}` : undefined}
           style={{ position: "fixed", top: pos.top, left: pos.left, maxHeight: Math.min(260, window.innerHeight - pos.top - 8) }}
         >
           {searchable && (
@@ -1119,10 +1143,10 @@ function SentenceSelect({
               key={opt}
               type="button"
               role="option"
-              id={`ifw-opt-${idx}`}
+              id={`${idPrefix}-${idx}`}
               aria-selected={value === opt}
               className={`ifw-select-option ${value === opt ? "active" : ""} ${idx === highlightedIndex ? "highlighted" : ""}`}
-              onClick={() => { onChange(opt); setOpen(false); }}
+              onClick={() => { onChange(opt); closeAndFocus(); }}
               onMouseEnter={() => setHighlightedIndex(idx)}
               ref={(el) => { if (idx === highlightedIndex && el) el.scrollIntoView({ block: "nearest" }); }}
             >
@@ -1192,6 +1216,7 @@ function PhoneInput({
   return (
     <input
       type="tel"
+      inputMode="numeric"
       className={`ifw-text-field ${value ? "has-value" : ""}`}
       style={{ width: `${charCount + 1}ch` }}
       placeholder={placeholder}

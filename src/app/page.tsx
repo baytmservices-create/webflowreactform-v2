@@ -69,6 +69,7 @@ const i18n = {
     state: "state",
     // Step 3 sentence
     myBusinessIsIn: "My business is in",
+    with: "with",
     withEmployees: "employees.",
     industry: "industry",
     count: "count",
@@ -128,6 +129,7 @@ const i18n = {
     city: "ciudad",
     state: "estado",
     myBusinessIsIn: "Mi negocio está en",
+    with: "con",
     withEmployees: "empleados.",
     industry: "industria",
     count: "cantidad",
@@ -498,8 +500,27 @@ export default function GetStarted() {
     if (!hasData) { setStep(1); setDirection("forward"); }
   };
 
-  // Keyboard: Enter to advance
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (!modalOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [modalOpen]);
+
+  // Sync html lang attribute with language toggle
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  // Keyboard: Enter to advance, Escape to close
   const handleModalKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.stopPropagation();
+      if (showConfirm) setShowConfirm(false);
+      else tryClose();
+      return;
+    }
     if (e.key !== "Enter" || submitting) return;
     const el = e.target as HTMLElement;
     if (el.tagName === "TEXTAREA") return;
@@ -629,6 +650,7 @@ export default function GetStarted() {
                     options={[t.anIndividual, t.aBusiness]}
                     placeholder="select one"
                     ariaLabel="I am"
+                    t={t}
                   />
                   {userType && (
                     <span className="fade-in">
@@ -737,6 +759,7 @@ export default function GetStarted() {
                         placeholder={t.state}
                         searchable
                         ariaLabel="State"
+                        t={t}
                       />
                     </span>
                   )}
@@ -770,16 +793,18 @@ export default function GetStarted() {
                     options={INDUSTRIES}
                     placeholder={t.industry}
                     ariaLabel="Industry"
+                    t={t}
                   />
                   {industry && (
                     <span className="fade-in">
-                      {" "}with{" "}
+                      {" "}{t.with}{" "}
                       <SentenceSelect
                         value={employeeCount}
                         onChange={setEmployeeCount}
                         options={EMPLOYEE_COUNTS}
                         placeholder={t.count}
                         ariaLabel="Employee count"
+                        t={t}
                       />
                       {" "}{t.withEmployees}
                     </span>
@@ -971,7 +996,11 @@ export default function GetStarted() {
 
 function ModalStep({ children, direction }: { children: React.ReactNode; direction: "forward" | "back" }) {
   const [show, setShow] = useState(false);
+  const prefersReduced = useRef(
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ).current;
   useEffect(() => { setShow(true); }, []);
+  if (prefersReduced) return <div>{children}</div>;
   const startX = direction === "forward" ? 40 : -40;
   return (
     <div style={{
@@ -989,10 +1018,11 @@ function ModalStep({ children, direction }: { children: React.ReactNode; directi
 // ============================================================
 
 function SentenceSelect({
-  value, onChange, options, placeholder, searchable = false, ariaLabel,
+  value, onChange, options, placeholder, searchable = false, ariaLabel, t,
 }: {
   value: string; onChange: (v: string) => void;
   options: string[]; placeholder: string; searchable?: boolean; ariaLabel?: string;
+  t: (typeof i18n)[Lang];
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -1001,6 +1031,9 @@ function SentenceSelect({
   const [pos, setPos] = useState({ top: 0, left: 0 });
   const [search, setSearch] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const idPrefix = useRef(`ifw-${Math.random().toString(36).slice(2, 7)}`).current;
+
+  const closeAndFocus = () => { setOpen(false); setTimeout(() => triggerRef.current?.focus(), 0); };
 
   const filtered = searchable && search
     ? options.filter((o) => o.toLowerCase().includes(search.toLowerCase()))
@@ -1015,7 +1048,7 @@ function SentenceSelect({
         triggerRef.current && !triggerRef.current.contains(e.target as Node) &&
         dropdownRef.current && !dropdownRef.current.contains(e.target as Node)
       ) {
-        setOpen(false);
+        closeAndFocus();
       }
     }
     document.addEventListener("mousedown", handleClick);
@@ -1025,7 +1058,7 @@ function SentenceSelect({
   useEffect(() => {
     if (!open) return;
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key === "Escape") { closeAndFocus(); return; }
       if (filtered.length === 0) return;
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -1038,12 +1071,12 @@ function SentenceSelect({
           e.preventDefault();
           e.stopPropagation();
           onChange(filtered[highlightedIndex]);
-          setOpen(false);
+          closeAndFocus();
         } else if (filtered.length === 1) {
           e.preventDefault();
           e.stopPropagation();
           onChange(filtered[0]);
-          setOpen(false);
+          closeAndFocus();
         }
       }
     }
@@ -1113,7 +1146,7 @@ function SentenceSelect({
           className="custom-select-dropdown"
           role="listbox"
           aria-label={ariaLabel ?? placeholder}
-          aria-activedescendant={highlightedIndex >= 0 ? `ifw-opt-${highlightedIndex}` : undefined}
+          aria-activedescendant={highlightedIndex >= 0 ? `${idPrefix}-${highlightedIndex}` : undefined}
           style={{ position: "fixed", top: pos.top, left: pos.left, maxHeight: Math.min(260, window.innerHeight - pos.top - 8) }}
         >
           {searchable && (
@@ -1121,7 +1154,7 @@ function SentenceSelect({
               ref={searchInputRef}
               type="text"
               className="custom-select-search"
-              placeholder="Type to search..."
+              placeholder={t.typeToSearch}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Search options"
@@ -1132,10 +1165,10 @@ function SentenceSelect({
               key={opt}
               type="button"
               role="option"
-              id={`ifw-opt-${idx}`}
+              id={`${idPrefix}-${idx}`}
               aria-selected={value === opt}
               className={`custom-select-option ${value === opt ? "active" : ""} ${idx === highlightedIndex ? "highlighted" : ""}`}
-              onClick={() => { onChange(opt); setOpen(false); }}
+              onClick={() => { onChange(opt); closeAndFocus(); }}
               onMouseEnter={() => setHighlightedIndex(idx)}
               ref={(el) => { if (idx === highlightedIndex && el) el.scrollIntoView({ block: "nearest" }); }}
             >
@@ -1143,7 +1176,7 @@ function SentenceSelect({
             </button>
           ))}
           {searchable && filtered.length === 0 && (
-            <div className="custom-select-empty">No results</div>
+            <div className="custom-select-empty">{t.noResults}</div>
           )}
         </div>,
         document.body,
@@ -1205,6 +1238,7 @@ function PhoneInput({
   return (
     <input
       type="tel"
+      inputMode="numeric"
       className={`text-field ${value ? "has-value" : ""}`}
       style={{ width: `${charCount + 1}ch` }}
       placeholder={placeholder}
