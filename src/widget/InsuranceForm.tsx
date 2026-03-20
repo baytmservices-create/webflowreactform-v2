@@ -32,7 +32,6 @@ const INDUSTRIES = [
 
 const EMPLOYEE_COUNTS = ["1-5", "6-25", "26-50", "51-100", "101-500", "500+"];
 
-const STORAGE_KEY = "insurance-form-draft";
 const LANG_KEY = "insurance-form-lang";
 
 // ---- i18n ----
@@ -265,29 +264,6 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
 
   const t = i18n[lang];
 
-  // ---- localStorage restore ----
-  const [restored, setRestored] = useState(false);
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const d = JSON.parse(saved);
-        if (d.userType) setUserType(d.userType);
-        if (d.insuranceTypes) setInsuranceTypes(d.insuranceTypes);
-        if (d.firstName) setFirstName(d.firstName);
-        if (d.lastName) setLastName(d.lastName);
-        if (d.city) setCity(d.city);
-        if (d.state) setState(d.state);
-        if (d.industry) setIndustry(d.industry);
-        if (d.employeeCount) setEmployeeCount(d.employeeCount);
-        if (d.phone) setPhone(d.phone);
-        if (d.email) setEmail(d.email);
-        if (d.comments !== undefined) setComments(d.comments);
-        if (d.step && d.step < 5) setStep(d.step);
-      }
-    } catch { /* ignore */ }
-    setRestored(true);
-  }, []);
 
   // ---- Pre-fill from URL params ----
   useEffect(() => {
@@ -308,18 +284,6 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
     } catch { /* ignore */ }
   }, []);
 
-  // ---- localStorage save ----
-  useEffect(() => {
-    if (!restored) return;
-    if (step === 5) { localStorage.removeItem(STORAGE_KEY); return; }
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        userType, insuranceTypes, firstName, lastName,
-        city, state, industry, employeeCount,
-        phone, email, comments, step,
-      }));
-    } catch { /* ignore */ }
-  }, [restored, userType, insuranceTypes, firstName, lastName, city, state, industry, employeeCount, phone, email, comments, step]);
 
   // ---- Analytics: step viewed ----
   useEffect(() => {
@@ -490,7 +454,6 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
     setPhone(""); setEmail(""); setComments("");
     setPhoneTouched(false); setEmailTouched(false);
     setSubmitError(false); setDirection("forward"); setStep(1);
-    localStorage.removeItem(STORAGE_KEY);
   };
 
   // Lock body scroll when modal is open

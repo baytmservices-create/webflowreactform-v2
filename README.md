@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Insurance Quote Form
 
-## Getting Started
+A multi-step insurance quote form built with Next.js. Submissions are sent to Customer.io for lead tracking.
 
-First, run the development server:
+## Quick Start
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+Copy the example file and fill in your Customer.io credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```
+CUSTOMERIO_SITE_ID=your_site_id_here
+CUSTOMERIO_API_KEY=your_api_key_here
+```
+
+You can find these in your Customer.io account under **Settings > Account Settings > API Credentials**. Use the **Track API** Site ID and API Key.
+
+### 3. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the form.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Build for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+This is a standard Next.js app. It can be deployed anywhere that supports Node.js:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Vercel (easiest)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push the repo to GitHub
+2. Import it at [vercel.com/new](https://vercel.com/new)
+3. Add the two environment variables (`CUSTOMERIO_SITE_ID`, `CUSTOMERIO_API_KEY`) in the Vercel project settings under **Settings > Environment Variables**
+4. Deploy
 
-## Deploy on Vercel
+### Other platforms (Netlify, Railway, AWS, any Node server)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Any platform that can run `npm run build` and `npm start` will work. Just make sure:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Node.js 18+** is available
+- The two environment variables are set in the platform's config
+- Port is configurable via the `PORT` env var (Next.js respects this automatically)
+
+For a plain server:
+
+```bash
+npm install
+npm run build
+PORT=3000 npm start
+```
+
+## Embeddable Widget
+
+The form is also available as a standalone widget that can be embedded on any website (e.g., Webflow, WordPress).
+
+### Build the widget
+
+```bash
+npm run build:widget
+```
+
+This outputs two files in `dist-widget/`:
+- `insurance-form.js`
+- `insurance-form.css`
+
+### Embed on any page
+
+Add this to the host page's HTML:
+
+```html
+<link rel="stylesheet" href="insurance-form.css" />
+<div id="insurance-form" data-api-url="https://YOUR-DOMAIN.com/api/submit"></div>
+<script src="insurance-form.js"></script>
+```
+
+Replace `YOUR-DOMAIN.com` with wherever the Next.js app is hosted. The widget calls that URL to submit form data.
+
+**Important:** The `data-api-url` must point to the deployed Next.js app's `/api/submit` endpoint, because that's where the Customer.io credentials live. The widget itself is just static JS/CSS and holds no secrets.
+
+## Project Structure
+
+```
+src/
+  app/
+    page.tsx          # Full-page form (Next.js)
+    api/submit/       # API route that talks to Customer.io
+    globals.css       # Page styles
+  widget/
+    InsuranceForm.tsx  # Embeddable widget version
+    widget.css        # Widget styles (namespaced with .ifw)
+    index.tsx         # Widget entry point / auto-init
+```
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `CUSTOMERIO_SITE_ID` | Customer.io Track API Site ID |
+| `CUSTOMERIO_API_KEY` | Customer.io Track API Key |
