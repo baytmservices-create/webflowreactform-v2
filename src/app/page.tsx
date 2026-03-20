@@ -89,6 +89,7 @@ const i18n = {
     submit: "Submit →",
     submitting: "Submitting...",
     done: "Done",
+    startOver: "Start Over",
     back: "← Back",
     stay: "Stay",
     close: "Close",
@@ -147,6 +148,7 @@ const i18n = {
     submit: "Enviar →",
     submitting: "Enviando...",
     done: "Listo",
+    startOver: "Empezar de nuevo",
     back: "← Atrás",
     stay: "Quedarse",
     close: "Cerrar",
@@ -498,6 +500,15 @@ export default function GetStarted() {
     trackEvent("form_opened");
     setModalOpen(true);
     if (!hasData) { setStep(1); setDirection("forward"); }
+  };
+
+  const handleStartOver = () => {
+    setUserType(""); setInsuranceTypes([]); setFirstName(""); setLastName("");
+    setCity(""); setState(""); setIndustry(""); setEmployeeCount("");
+    setPhone(""); setEmail(""); setComments("");
+    setPhoneTouched(false); setEmailTouched(false);
+    setSubmitError(false); setDirection("forward"); setStep(1);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   // Lock body scroll when modal is open
@@ -942,13 +953,20 @@ export default function GetStarted() {
                   <p className="text-xl font-light fade-in" style={{ color: "var(--text-muted)", animationDelay: "0.5s", animationFillMode: "both" }}>
                     {t.weReceived}
                   </p>
-                  <div className="mt-8 fade-in" style={{ animationDelay: "0.8s", animationFillMode: "both" }}>
+                  <div className="mt-8 fade-in" style={{ animationDelay: "0.8s", animationFillMode: "both", display: "flex", gap: 12, justifyContent: "center" }}>
                     <button
                       className="btn-primary"
                       aria-label={t.done}
                       onClick={() => setModalOpen(false)}
                     >
                       {t.done}
+                    </button>
+                    <button
+                      className="confirm-leave"
+                      aria-label={t.startOver}
+                      onClick={handleStartOver}
+                    >
+                      {t.startOver}
                     </button>
                   </div>
                 </div>

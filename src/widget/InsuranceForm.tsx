@@ -79,6 +79,7 @@ const i18n = {
     submit: "Submit \u2192",
     submitting: "Submitting...",
     done: "Done",
+    startOver: "Start Over",
     back: "\u2190 Back",
     stay: "Stay",
     close: "Close",
@@ -131,6 +132,7 @@ const i18n = {
     submit: "Enviar \u2192",
     submitting: "Enviando...",
     done: "Listo",
+    startOver: "Empezar de nuevo",
     back: "\u2190 Atr\u00e1s",
     stay: "Quedarse",
     close: "Cerrar",
@@ -480,6 +482,15 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
     trackEvent("form_opened");
     setModalOpen(true);
     if (!hasData) { setStep(1); setDirection("forward"); }
+  };
+
+  const handleStartOver = () => {
+    setUserType(""); setInsuranceTypes([]); setFirstName(""); setLastName("");
+    setCity(""); setState(""); setIndustry(""); setEmployeeCount("");
+    setPhone(""); setEmail(""); setComments("");
+    setPhoneTouched(false); setEmailTouched(false);
+    setSubmitError(false); setDirection("forward"); setStep(1);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   // Lock body scroll when modal is open
@@ -919,13 +930,20 @@ export function InsuranceForm({ apiUrl }: { apiUrl: string }) {
                   <p className="ifw-subtitle ifw-fade-in" style={{ fontSize: 20, animationDelay: "0.5s", animationFillMode: "both" }}>
                     {t.weReceived}
                   </p>
-                  <div className="ifw-fade-in" style={{ marginTop: 32, animationDelay: "0.8s", animationFillMode: "both" }}>
+                  <div className="ifw-fade-in" style={{ marginTop: 32, animationDelay: "0.8s", animationFillMode: "both", display: "flex", gap: 12, justifyContent: "center" }}>
                     <button
                       className="ifw-btn-primary"
                       aria-label={t.done}
                       onClick={() => setModalOpen(false)}
                     >
                       {t.done}
+                    </button>
+                    <button
+                      className="ifw-confirm-leave"
+                      aria-label={t.startOver}
+                      onClick={handleStartOver}
+                    >
+                      {t.startOver}
                     </button>
                   </div>
                 </div>
