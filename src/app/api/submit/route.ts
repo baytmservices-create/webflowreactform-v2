@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
       employee_count: employeeCount || undefined,
       phone,
       comments: comments || undefined,
+      source: "insurance_form_widget",
       created_at: Math.floor(Date.now() / 1000),
     });
 
