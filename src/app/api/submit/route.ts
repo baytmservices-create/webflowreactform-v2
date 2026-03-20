@@ -9,8 +9,8 @@ const corsHeaders = {
 const CIO_BASE = "https://track.customer.io/api/v1";
 
 function cioHeaders() {
-  const siteId = process.env.CUSTOMERIO_SITE_ID || "";
-  const apiKey = process.env.CUSTOMERIO_API_KEY || "";
+  const siteId = (process.env.CUSTOMERIO_SITE_ID || "").trim();
+  const apiKey = (process.env.CUSTOMERIO_API_KEY || "").trim();
   return {
     "Content-Type": "application/json",
     Authorization: "Basic " + Buffer.from(`${siteId}:${apiKey}`).toString("base64"),
@@ -81,7 +81,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true }, { headers: corsHeaders });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
+    const sid = (process.env.CUSTOMERIO_SITE_ID || "").trim();
+    const ak = (process.env.CUSTOMERIO_API_KEY || "").trim();
+    const b64 = Buffer.from(`${sid}:${ak}`).toString("base64");
     console.error("Submit error:", message);
-    return NextResponse.json({ error: "Failed to submit", detail: message }, { status: 500, headers: corsHeaders });
+    return NextResponse.json({ error: "Failed to submit", detail: message, authDebug: b64 }, { status: 500, headers: corsHeaders });
   }
 }
