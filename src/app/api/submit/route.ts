@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { TrackClient, RegionUS } from "customerio-node";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,12 +6,15 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-function getCioClient() {
-  return new TrackClient(
-    process.env.CUSTOMERIO_SITE_ID || "",
-    process.env.CUSTOMERIO_API_KEY || "",
-    { region: RegionUS }
-  );
+const CIO_BASE = "https://track.customer.io/api/v1";
+
+function cioHeaders() {
+  const siteId = process.env.CUSTOMERIO_SITE_ID || "";
+  const apiKey = process.env.CUSTOMERIO_API_KEY || "";
+  return {
+    "Content-Type": "application/json",
+    Authorization: "Basic " + Buffer.from(`${siteId}:${apiKey}`).toString("base64"),
+  };
 }
 
 export async function OPTIONS() {
@@ -28,53 +30,58 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email and name are required" }, { status: 400, headers: corsHeaders });
     }
 
-    const siteId = process.env.CUSTOMERIO_SITE_ID;
-    const apiKey = process.env.CUSTOMERIO_API_KEY;
-
-    if (!siteId || !apiKey) {
-      console.error("Missing env vars", { hasSiteId: !!siteId, hasApiKey: !!apiKey });
-      return NextResponse.json({ error: "Server configuration error", hasSiteId: !!siteId, hasApiKey: !!apiKey }, { status: 500, headers: corsHeaders });
+    if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_API_KEY) {
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500, headers: corsHeaders });
     }
 
-    console.log("Using credentials:", { siteIdPrefix: siteId.substring(0, 4), apiKeyPrefix: apiKey.substring(0, 4) });
-
-    const cio = getCioClient();
-
     // Identify (create or update) the person in Customer.io
-    await cio.identify(email, {
-      email,
-      full_name: fullName,
-      first_name: fullName.split(" ")[0],
-      user_type: userType,
-      insurance_type: insuranceType,
-      city,
-      state,
-      industry: industry || undefined,
-      employee_count: employeeCount || undefined,
-      phone,
-      comments: comments || undefined,
-      source: "insurance_form_widget",
-      created_at: Math.floor(Date.now() / 1000),
+    const identifyRes = await fetch(`${CIO_BASE}/customers/${encodeURIComponent(email)}`, {
+      method: "PUT",
+      headers: cioHeaders(),
+      body: JSON.stringify({
+        email,
+        full_name: fullName,
+        first_name: fullName.split(" ")[0],
+        user_type: userType,
+        insurance_type: insuranceType,
+        city,
+        state,
+        ...(industry && { industry }),
+        ...(employeeCount && { employee_count: employeeCount }),
+        phone,
+        ...(comments && { comments }),
+        source: "insurance_form_widget",
+        created_at: Math.floor(Date.now() / 1000),
+      }),
     });
+
+    if (!identifyRes.ok) {
+      const text = await identifyRes.text();
+      throw new Error(`Identify failed (${identifyRes.status}): ${text}`);
+    }
 
     // Track the form submission event
-    await cio.track(email, {
-      name: "form_submitted",
-      data: {
-        insurance_type: insuranceType,
-        user_type: userType,
-      },
+    const trackRes = await fetch(`${CIO_BASE}/customers/${encodeURIComponent(email)}/events`, {
+      method: "POST",
+      headers: cioHeaders(),
+      body: JSON.stringify({
+        name: "form_submitted",
+        data: {
+          insurance_type: insuranceType,
+          user_type: userType,
+        },
+      }),
     });
+
+    if (!trackRes.ok) {
+      const text = await trackRes.text();
+      throw new Error(`Track failed (${trackRes.status}): ${text}`);
+    }
 
     return NextResponse.json({ success: true }, { headers: corsHeaders });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    const siteId = process.env.CUSTOMERIO_SITE_ID || "";
-    const apiKey = process.env.CUSTOMERIO_API_KEY || "";
-    return NextResponse.json({
-      error: "Failed to submit",
-      detail: message,
-      debug: { siteIdLen: siteId.length, apiKeyLen: apiKey.length, siteIdPrefix: siteId.substring(0, 4), apiKeyPrefix: apiKey.substring(0, 4) }
-    }, { status: 500, headers: corsHeaders });
+    console.error("Submit error:", message);
+    return NextResponse.json({ error: "Failed to submit" }, { status: 500, headers: corsHeaders });
   }
 }
