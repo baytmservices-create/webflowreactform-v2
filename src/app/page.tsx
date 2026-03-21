@@ -107,6 +107,26 @@ const i18n = {
     // Language toggle
     langToggleEn: "EN",
     langToggleEs: "ES",
+    // Insurance type labels
+    insuranceHome: "Home",
+    insuranceAuto: "Auto",
+    insuranceLife: "Life",
+    insuranceOther: "Other",
+    insuranceGL: "General Liability",
+    insuranceWC: "Workers' Compensation",
+    insuranceProperty: "Property",
+    insuranceCA: "Commercial Auto",
+    // Industry labels
+    industryConstruction: "Construction",
+    industryHealthcare: "Healthcare",
+    industryManufacturing: "Manufacturing",
+    industryRetail: "Retail",
+    industryTechnology: "Technology",
+    industryFood: "Food & Beverage",
+    industryTransportation: "Transportation",
+    industryProfessional: "Professional Services",
+    industryEducation: "Education",
+    industryOther: "Other",
   },
   es: {
     landingHeading: "Encuentra la cobertura adecuada para ti.",
@@ -160,8 +180,48 @@ const i18n = {
     modalAriaLabel: "Formulario de cotización de seguro",
     langToggleEn: "EN",
     langToggleEs: "ES",
+    // Insurance type labels
+    insuranceHome: "Hogar",
+    insuranceAuto: "Auto",
+    insuranceLife: "Vida",
+    insuranceOther: "Otro",
+    insuranceGL: "Responsabilidad General",
+    insuranceWC: "Compensación Laboral",
+    insuranceProperty: "Propiedad",
+    insuranceCA: "Auto Comercial",
+    // Industry labels
+    industryConstruction: "Construcción",
+    industryHealthcare: "Salud",
+    industryManufacturing: "Manufactura",
+    industryRetail: "Comercio",
+    industryTechnology: "Tecnología",
+    industryFood: "Alimentos y Bebidas",
+    industryTransportation: "Transporte",
+    industryProfessional: "Servicios Profesionales",
+    industryEducation: "Educación",
+    industryOther: "Otro",
   },
 } as const;
+
+// Translation maps: internal value → i18n key
+const insuranceTypeKeys: Record<string, string> = {
+  Home: "insuranceHome", Auto: "insuranceAuto", Life: "insuranceLife", Other: "insuranceOther",
+  "General Liability": "insuranceGL", "Workers' Compensation": "insuranceWC",
+  Property: "insuranceProperty", "Commercial Auto": "insuranceCA",
+};
+
+const industryKeys: Record<string, string> = {
+  Construction: "industryConstruction", Healthcare: "industryHealthcare",
+  Manufacturing: "industryManufacturing", Retail: "industryRetail",
+  Technology: "industryTechnology", "Food & Beverage": "industryFood",
+  Transportation: "industryTransportation", "Professional Services": "industryProfessional",
+  Education: "industryEducation", Other: "industryOther",
+};
+
+function tLabel(t: Record<string, string>, key: string, maps: Record<string, string>): string {
+  const k = maps[key];
+  return k && t[k] ? t[k] : key;
+}
 
 // ---- Analytics ----
 
@@ -646,7 +706,7 @@ export default function GetStarted() {
                             key={type}
                             type="button"
                             aria-pressed={selected}
-                            aria-label={type}
+                            aria-label={tLabel(t, type, insuranceTypeKeys)}
                             className={`pill-multi ${selected ? "selected pill-bounce" : ""}`}
                             onClick={() => toggleInsuranceType(type)}
                             onAnimationEnd={(e) => {
@@ -666,7 +726,7 @@ export default function GetStarted() {
                                 <path d="M2 7L5.5 10.5L12 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             )}
-                            {type}
+                            {tLabel(t, type, insuranceTypeKeys)}
                           </button>
                         );
                       })}
@@ -768,6 +828,7 @@ export default function GetStarted() {
                     placeholder={t.industry}
                     ariaLabel="Industry"
                     t={t}
+                    labelMap={(v) => tLabel(t, v, industryKeys)}
                   />
                   {industry && (
                     <span className="fade-in">
@@ -999,12 +1060,13 @@ function ModalStep({ children, direction }: { children: React.ReactNode; directi
 // ============================================================
 
 function SentenceSelect({
-  value, onChange, options, placeholder, searchable = false, ariaLabel, t,
+  value, onChange, options, placeholder, searchable = false, ariaLabel, t, labelMap,
 }: {
   value: string; onChange: (v: string) => void;
   options: string[]; placeholder: string; searchable?: boolean; ariaLabel?: string;
-  t: (typeof i18n)[Lang];
+  t: (typeof i18n)[Lang]; labelMap?: (v: string) => string;
 }) {
+  const getLabel = labelMap ?? ((v: string) => v);
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -1017,7 +1079,7 @@ function SentenceSelect({
   const closeAndFocus = () => { setOpen(false); setTimeout(() => triggerRef.current?.focus(), 0); };
 
   const filtered = searchable && search
-    ? options.filter((o) => o.toLowerCase().includes(search.toLowerCase()))
+    ? options.filter((o) => getLabel(o).toLowerCase().includes(search.toLowerCase()))
     : options;
 
   useEffect(() => { setHighlightedIndex(-1); }, [search]);
@@ -1116,7 +1178,7 @@ function SentenceSelect({
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
-        {value || placeholder}
+        {value ? getLabel(value) : placeholder}
         <svg className="custom-select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
           <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -1153,7 +1215,7 @@ function SentenceSelect({
               onMouseEnter={() => setHighlightedIndex(idx)}
               ref={(el) => { if (idx === highlightedIndex && el) el.scrollIntoView({ block: "nearest" }); }}
             >
-              {opt}
+              {getLabel(opt)}
             </button>
           ))}
           {searchable && filtered.length === 0 && (
