@@ -222,6 +222,15 @@
   line-height: 1.2;
 }
 
+.ifw-text-field-sizer {
+  position: absolute;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+
 .ifw-text-field.has-value {
   color: var(--ifw-choice-color);
   border-bottom-color: var(--ifw-choice-color);

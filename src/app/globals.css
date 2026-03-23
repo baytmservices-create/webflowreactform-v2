@@ -215,6 +215,15 @@ body {
   line-height: 1.2;
 }
 
+.text-field-sizer {
+  position: absolute;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  white-space: pre;
+  pointer-events: none;
+}
+
 .text-field.has-value {
   color: var(--choice-color);
   border-bottom-color: var(--choice-color);

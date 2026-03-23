@@ -1232,6 +1232,15 @@ function SentenceSelect({
 // Shared Components
 // ============================================================
 
+function useTextWidth(text: string) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [width, setWidth] = useState<number>(0);
+  useLayoutEffect(() => {
+    if (ref.current) setWidth(ref.current.scrollWidth);
+  }, [text]);
+  return { ref, width };
+}
+
 function InlineInput({
   value, onChange, placeholder, type = "text", autoFocus = false, onBlur, ariaLabel, autoComplete, ariaDescribedBy,
 }: {
@@ -1240,21 +1249,24 @@ function InlineInput({
   onBlur?: () => void; ariaLabel?: string; autoComplete?: string; ariaDescribedBy?: string;
 }) {
   const display = value || placeholder;
-  const charCount = Math.max(display.length, 3);
+  const { ref: sizerRef, width } = useTextWidth(display);
   return (
-    <input
-      type={type}
-      className={`text-field ${value ? "has-value" : ""}`}
-      style={{ width: `${charCount + 0.5}ch` }}
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      autoFocus={autoFocus}
-      onBlur={onBlur}
-      aria-label={ariaLabel ?? placeholder}
-      autoComplete={autoComplete}
-      aria-describedby={ariaDescribedBy}
-    />
+    <>
+      <span ref={sizerRef} className="text-field text-field-sizer" aria-hidden="true">{display}</span>
+      <input
+        type={type}
+        className={`text-field ${value ? "has-value" : ""}`}
+        style={width ? { width: width + 2 } : undefined}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        autoFocus={autoFocus}
+        onBlur={onBlur}
+        aria-label={ariaLabel ?? placeholder}
+        autoComplete={autoComplete}
+        aria-describedby={ariaDescribedBy}
+      />
+    </>
   );
 }
 
@@ -1272,7 +1284,7 @@ function PhoneInput({
 
   const displayValue = value ? formatPhone(value) : "";
   const display = displayValue || placeholder;
-  const charCount = Math.max(display.length, 3);
+  const { ref: sizerRef, width } = useTextWidth(display);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
@@ -1280,19 +1292,22 @@ function PhoneInput({
   };
 
   return (
-    <input
-      type="tel"
-      inputMode="numeric"
-      className={`text-field ${value ? "has-value" : ""}`}
-      style={{ width: `${charCount + 0.5}ch` }}
-      placeholder={placeholder}
-      value={displayValue}
-      onChange={handleChange}
-      autoFocus={autoFocus}
-      onBlur={onBlur}
-      aria-label={ariaLabel ?? "Phone number"}
-      autoComplete={autoComplete}
-      aria-describedby={ariaDescribedBy}
-    />
+    <>
+      <span ref={sizerRef} className="text-field text-field-sizer" aria-hidden="true">{display}</span>
+      <input
+        type="tel"
+        inputMode="numeric"
+        className={`text-field ${value ? "has-value" : ""}`}
+        style={width ? { width: width + 2 } : undefined}
+        placeholder={placeholder}
+        value={displayValue}
+        onChange={handleChange}
+        autoFocus={autoFocus}
+        onBlur={onBlur}
+        aria-label={ariaLabel ?? "Phone number"}
+        autoComplete={autoComplete}
+        aria-describedby={ariaDescribedBy}
+      />
+    </>
   );
 }
