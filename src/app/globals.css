@@ -382,6 +382,19 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   animation: modalCardIn 0.3s ease-out;
   margin: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.modal-card::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
 }
 
 @media (min-width: 640px) {

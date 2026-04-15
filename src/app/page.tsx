@@ -37,161 +37,273 @@ const EMPLOYEE_COUNTS = ["1-5", "6-25", "26-50", "51-100", "101-500", "500+"];
 // ---- Vertical Configs ----
 interface VerticalConfig {
   heading?: string;
+  headingEs?: string;
   subtext?: string;
+  subtextEs?: string;
   insuranceTypesBusiness: string[];
+  insuranceTypesBusinessEs?: string[];
   industries: string[];
+  industriesEs?: string[];
   employeeCounts?: string[];
   businessLabel?: string;
+  businessLabelEs?: string;
   industryLabel?: string;
+  industryLabelEs?: string;
   employeeLabel?: string;
+  employeeLabelEs?: string;
 }
 
 const VERTICALS: Record<string, VerticalConfig> = {
   trucking: {
     heading: "Get a trucking insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de camiones.",
     subtext: "Answer a few quick questions about your operation.",
-    insuranceTypesBusiness: ["Auto Liability", "Physical Damage", "Motor Truck Cargo", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su operaci\u00f3n.",
+    insuranceTypesBusiness: ["Auto Liability", "Physical Damage", "Motor Truck Cargo", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad Auto", "Da\u00f1o F\u00edsico", "Carga", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Owner-Operator", "Small Fleet (2-15)", "Large Fleet (16+)", "Hot Shot", "Flatbed", "Refrigerated", "Hazmat", "Intermodal", "LTL/Last Mile", "Other"],
+    industriesEs: ["Operador-Propietario", "Flota Peque\u00f1a (2-15)", "Flota Grande (16+)", "Hot Shot", "Plataforma", "Refrigerado", "Materiales Peligrosos", "Intermodal", "LTL/\u00daltima Milla", "Otro"],
     employeeCounts: ["1", "2-5", "6-15", "16-50", "50+"],
     businessLabel: "a trucking operation",
+    businessLabelEs: "una operaci\u00f3n de camiones",
     industryLabel: "operation type",
+    industryLabelEs: "tipo de operaci\u00f3n",
     employeeLabel: "power units.",
+    employeeLabelEs: "unidades de potencia.",
   },
   towing: {
     heading: "Get a towing insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de gr\u00faas.",
     subtext: "Answer a few quick questions about your operation.",
-    insuranceTypesBusiness: ["Auto Liability", "On-Hook Coverage", "Garagekeepers", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su operaci\u00f3n.",
+    insuranceTypesBusiness: ["Auto Liability", "On-Hook Coverage", "Garagekeepers", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad Auto", "Cobertura en Gancho", "Garagekeepers", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Light-Duty Towing", "Medium-Duty Towing", "Heavy-Duty Recovery", "Roadside Assistance", "Repossession", "Municipal/Police Towing", "Motor Club", "Long-Distance", "Motorcycle Specialty", "Other"],
+    industriesEs: ["Gr\u00faa Liviana", "Gr\u00faa Mediana", "Recuperaci\u00f3n Pesada", "Asistencia en Carretera", "Reposesi\u00f3n", "Gr\u00faa Municipal/Policial", "Club de Motor", "Larga Distancia", "Especialidad en Motos", "Otro"],
     employeeCounts: ["1-3", "4-10", "11-25", "25+"],
     businessLabel: "a towing operation",
+    businessLabelEs: "una operaci\u00f3n de gr\u00faas",
     industryLabel: "towing type",
+    industryLabelEs: "tipo de gr\u00faa",
     employeeLabel: "tow trucks.",
+    employeeLabelEs: "gr\u00faas.",
   },
   cannabis: {
     heading: "Get a cannabis insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de cannabis.",
     subtext: "Answer a few quick questions about your operation.",
-    insuranceTypesBusiness: ["General Liability", "Product Liability", "Crop Coverage", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su operaci\u00f3n.",
+    insuranceTypesBusiness: ["General Liability", "Product Liability", "Crop Coverage", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Responsabilidad de Producto", "Cobertura de Cultivo", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Dispensary/Retail", "Cultivator/Grower", "Manufacturer/Processor", "Distributor", "Testing Lab", "Multi-License Operator", "Hemp/CBD", "Delivery Services", "Ancillary", "Other"],
+    industriesEs: ["Dispensario/Minorista", "Cultivador/Productor", "Fabricante/Procesador", "Distribuidor", "Laboratorio", "Operador Multi-Licencia", "C\u00e1\u00f1amo/CBD", "Servicios de Entrega", "Auxiliar", "Otro"],
     employeeCounts: ["1-5", "6-15", "16-30", "31-50", "50+"],
     businessLabel: "a cannabis business",
+    businessLabelEs: "un negocio de cannabis",
     industryLabel: "license type",
+    industryLabelEs: "tipo de licencia",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   hospitality: {
     heading: "Get a hospitality insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de hospitalidad.",
     subtext: "Answer a few quick questions about your venue.",
-    insuranceTypesBusiness: ["General Liability", "Liquor Liability", "Property", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su establecimiento.",
+    insuranceTypesBusiness: ["General Liability", "Liquor Liability", "Property", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Responsabilidad de Licor", "Propiedad", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Restaurant", "Bar/Nightclub", "Hotel/Resort", "Brewery/Winery", "Catering/Events", "Cafe/Coffee", "Food Truck", "Banquet Venue", "Boutique Hotel", "Other"],
+    industriesEs: ["Restaurante", "Bar/Club Nocturno", "Hotel/Resort", "Cervecer\u00eda/Bodega", "Catering/Eventos", "Caf\u00e9", "Cami\u00f3n de Comida", "Sal\u00f3n de Banquetes", "Hotel Boutique", "Otro"],
     businessLabel: "a hospitality business",
+    businessLabelEs: "un negocio de hospitalidad",
     industryLabel: "venue type",
+    industryLabelEs: "tipo de establecimiento",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   construction: {
     heading: "Get a construction insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de construcci\u00f3n.",
     subtext: "Answer a few quick questions about your operation.",
-    insuranceTypesBusiness: ["General Liability", "Workers' Comp", "Builders Risk", "Commercial Auto"],
+    subtextEs: "Responda algunas preguntas sobre su operaci\u00f3n.",
+    insuranceTypesBusiness: ["General Liability", "Workers' Comp", "Builders Risk", "Commercial Auto", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Comp. Laboral", "Riesgo de Constructores", "Auto Comercial", "No Estoy Seguro"],
     industries: ["General Contractor", "Residential Builder", "Commercial Builder", "Electrical", "Plumbing/HVAC", "Roofing", "Concrete/Masonry", "Demolition", "Design-Build", "Other"],
+    industriesEs: ["Contratista General", "Constructor Residencial", "Constructor Comercial", "El\u00e9ctrico", "Plomer\u00eda/HVAC", "Techos", "Concreto/Mamposter\u00eda", "Demolici\u00f3n", "Dise\u00f1o-Construcci\u00f3n", "Otro"],
     employeeCounts: ["1-5", "6-15", "16-50", "51-100", "100+"],
     businessLabel: "a construction company",
+    businessLabelEs: "una empresa de construcci\u00f3n",
     industryLabel: "trade",
+    industryLabelEs: "oficio",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   'employee-benefits': {
     heading: "Get an employee benefits consultation.",
+    headingEs: "Obtenga una consulta de beneficios para empleados.",
     subtext: "Answer a few quick questions about your workforce.",
-    insuranceTypesBusiness: ["Group Health", "Dental", "Vision", "Retirement Plans"],
+    subtextEs: "Responda algunas preguntas sobre su fuerza laboral.",
+    insuranceTypesBusiness: ["Group Health", "Dental", "Vision", "Retirement Plans", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Salud Grupal", "Dental", "Visi\u00f3n", "Planes de Jubilaci\u00f3n", "No Estoy Seguro"],
     industries: ["Small Business (2-50)", "Mid-Market (51-250)", "Large Employer (250+)", "Nonprofit", "Technology", "Healthcare", "Manufacturing", "Professional Services", "Retail/Hospitality", "Other"],
+    industriesEs: ["Peque\u00f1a Empresa (2-50)", "Mediana Empresa (51-250)", "Gran Empleador (250+)", "Sin Fines de Lucro", "Tecnolog\u00eda", "Salud", "Manufactura", "Servicios Profesionales", "Comercio/Hospitalidad", "Otro"],
     employeeCounts: ["2-10", "11-50", "51-250", "251-1000", "1000+"],
     businessLabel: "an employer",
+    businessLabelEs: "un empleador",
     industryLabel: "company type",
+    industryLabelEs: "tipo de empresa",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   'business-insurance': {
     heading: "Get a business insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro comercial.",
     subtext: "Answer a few quick questions about your business.",
-    insuranceTypesBusiness: ["General Liability", "Workers' Comp", "Commercial Property", "Cyber Liability"],
+    subtextEs: "Responda algunas preguntas sobre su negocio.",
+    insuranceTypesBusiness: ["General Liability", "Workers' Comp", "Commercial Property", "Cyber Liability", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Comp. Laboral", "Propiedad Comercial", "Responsabilidad Cibern\u00e9tica", "No Estoy Seguro"],
     industries: ["Construction", "Technology", "Retail", "Manufacturing", "Hospitality", "Professional Services", "Real Estate", "Logistics", "Healthcare", "Other"],
+    industriesEs: ["Construcci\u00f3n", "Tecnolog\u00eda", "Comercio", "Manufactura", "Hospitalidad", "Servicios Profesionales", "Bienes Ra\u00edces", "Log\u00edstica", "Salud", "Otro"],
     businessLabel: "a business",
+    businessLabelEs: "un negocio",
     industryLabel: "industry",
+    industryLabelEs: "industria",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   entertainment: {
     heading: "Get an entertainment insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de entretenimiento.",
     subtext: "Answer a few quick questions about your production or event.",
-    insuranceTypesBusiness: ["General Liability", "Production Insurance", "Event Cancellation", "Equipment Floater"],
+    subtextEs: "Responda algunas preguntas sobre su producci\u00f3n o evento.",
+    insuranceTypesBusiness: ["General Liability", "Production Insurance", "Event Cancellation", "Equipment Floater", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Seguro de Producci\u00f3n", "Cancelaci\u00f3n de Eventos", "Cobertura de Equipo", "No Estoy Seguro"],
     industries: ["Film/TV Production", "Live Events", "Music Venue", "Theater/Performing Arts", "Sports Entertainment", "Amusement Park", "Festival/Fair", "Streaming/Digital", "Talent Agency", "Other"],
+    industriesEs: ["Producci\u00f3n de Cine/TV", "Eventos en Vivo", "Sala de M\u00fasica", "Teatro/Artes Esc\u00e9nicas", "Entretenimiento Deportivo", "Parque de Diversiones", "Festival/Feria", "Streaming/Digital", "Agencia de Talentos", "Otro"],
     businessLabel: "an entertainment company",
+    businessLabelEs: "una empresa de entretenimiento",
     industryLabel: "entertainment type",
+    industryLabelEs: "tipo de entretenimiento",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   habitational: {
     heading: "Get a habitational insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro habitacional.",
     subtext: "Answer a few quick questions about your properties.",
-    insuranceTypesBusiness: ["Property Insurance", "General Liability", "Flood Insurance", "Umbrella/Excess"],
+    subtextEs: "Responda algunas preguntas sobre sus propiedades.",
+    insuranceTypesBusiness: ["Property Insurance", "General Liability", "Flood Insurance", "Umbrella/Excess", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Seguro de Propiedad", "Responsabilidad General", "Seguro contra Inundaciones", "Paraguas/Exceso", "No Estoy Seguro"],
     industries: ["Apartment Complex", "Condominium", "Student Housing", "HOA", "Mixed-Use Property", "Property Management", "Single-Family Rentals", "Affordable Housing", "Vacation Rentals", "Other"],
+    industriesEs: ["Complejo de Apartamentos", "Condominio", "Vivienda Estudiantil", "HOA", "Propiedad de Uso Mixto", "Administraci\u00f3n de Propiedades", "Alquileres Unifamiliares", "Vivienda Asequible", "Alquileres Vacacionales", "Otro"],
     employeeCounts: ["1-10", "11-50", "51-100", "101-500", "500+"],
     businessLabel: "a property owner/manager",
+    businessLabelEs: "un propietario/administrador",
     industryLabel: "property type",
+    industryLabelEs: "tipo de propiedad",
     employeeLabel: "units.",
+    employeeLabelEs: "unidades.",
   },
   automotive: {
     heading: "Get an automotive insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro automotriz.",
     subtext: "Answer a few quick questions about your dealership or shop.",
-    insuranceTypesBusiness: ["Garage Liability", "Garagekeepers", "Dealers Open Lot", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su concesionario o taller.",
+    insuranceTypesBusiness: ["Garage Liability", "Garagekeepers", "Dealers Open Lot", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad de Garaje", "Garagekeepers", "Lote Abierto", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Franchise Dealership", "Independent Dealer", "Auto Repair Shop", "Body/Collision Shop", "Parts Distributor", "Fleet Management", "Car Rental", "Tire Shop", "Auto Detailing", "Other"],
+    industriesEs: ["Concesionario de Franquicia", "Distribuidor Independiente", "Taller Mec\u00e1nico", "Taller de Carrocer\u00eda", "Distribuidor de Partes", "Gesti\u00f3n de Flotas", "Alquiler de Autos", "Llanter\u00eda", "Detallado Automotriz", "Otro"],
     businessLabel: "an automotive business",
+    businessLabelEs: "un negocio automotriz",
     industryLabel: "operation type",
+    industryLabelEs: "tipo de operaci\u00f3n",
     employeeLabel: "employees.",
+    employeeLabelEs: "empleados.",
   },
   security: {
     heading: "Get a security insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de seguridad.",
     subtext: "Answer a few quick questions about your security operation.",
-    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Assault & Battery", "Firearms Liability"],
+    subtextEs: "Responda algunas preguntas sobre su operaci\u00f3n de seguridad.",
+    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Assault & Battery", "Firearms Liability", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Responsabilidad Profesional", "Asalto y Agresiones", "Responsabilidad de Armas", "No Estoy Seguro"],
     industries: ["Armed Guards", "Unarmed Security", "Executive Protection", "Event Security", "Campus Security", "Patrol Services", "Mobile Patrol", "Loss Prevention", "Cannabis Security", "Other"],
+    industriesEs: ["Guardias Armados", "Seguridad sin Armas", "Protecci\u00f3n Ejecutiva", "Seguridad de Eventos", "Seguridad de Campus", "Servicios de Patrulla", "Patrulla M\u00f3vil", "Prevenci\u00f3n de P\u00e9rdidas", "Seguridad de Cannabis", "Otro"],
     employeeCounts: ["1-10", "11-25", "26-50", "51-100", "100+"],
     businessLabel: "a security company",
+    businessLabelEs: "una empresa de seguridad",
     industryLabel: "service type",
+    industryLabelEs: "tipo de servicio",
     employeeLabel: "guards.",
+    employeeLabelEs: "guardias.",
   },
   'senior-living': {
     heading: "Get a senior living insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de vida asistida.",
     subtext: "Answer a few quick questions about your facility.",
-    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Abuse & Molestation", "Workers' Comp"],
+    subtextEs: "Responda algunas preguntas sobre su instalaci\u00f3n.",
+    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Abuse & Molestation", "Workers' Comp", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Responsabilidad Profesional", "Abuso y Acoso", "Comp. Laboral", "No Estoy Seguro"],
     industries: ["Assisted Living", "Skilled Nursing", "Memory Care", "Independent Living", "CCRC", "Home Health Agency", "Adult Day Care", "Hospice", "Rehabilitation Center", "Other"],
+    industriesEs: ["Vida Asistida", "Enfermer\u00eda Especializada", "Cuidado de Memoria", "Vida Independiente", "CCRC", "Agencia de Salud en el Hogar", "Centro de D\u00eda para Adultos", "Hospicio", "Centro de Rehabilitaci\u00f3n", "Otro"],
     employeeCounts: ["1-25", "26-50", "51-100", "101-250", "250+"],
     businessLabel: "a senior care facility",
+    businessLabelEs: "una instalaci\u00f3n de cuidado de adultos mayores",
     industryLabel: "facility type",
+    industryLabelEs: "tipo de instalaci\u00f3n",
     employeeLabel: "beds/residents.",
+    employeeLabelEs: "camas/residentes.",
   },
   education: {
     heading: "Get an education insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro educativo.",
     subtext: "Answer a few quick questions about your institution.",
-    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Abuse & Molestation", "Cyber Liability"],
+    subtextEs: "Responda algunas preguntas sobre su instituci\u00f3n.",
+    insuranceTypesBusiness: ["General Liability", "Professional Liability", "Abuse & Molestation", "Cyber Liability", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Responsabilidad Profesional", "Abuso y Acoso", "Responsabilidad Cibern\u00e9tica", "No Estoy Seguro"],
     industries: ["K-12 Public School", "K-12 Private School", "Charter School", "College/University", "Preschool/Daycare", "Trade/Vocational", "Online Education", "Special Education", "After-School Program", "Other"],
+    industriesEs: ["Escuela P\u00fablica K-12", "Escuela Privada K-12", "Escuela Ch\u00e1rter", "Universidad", "Preescolar/Guarder\u00eda", "T\u00e9cnica/Vocacional", "Educaci\u00f3n en L\u00ednea", "Educaci\u00f3n Especial", "Programa Extraescolar", "Otro"],
     employeeCounts: ["1-25", "26-100", "101-500", "501-2000", "2000+"],
     businessLabel: "an educational institution",
+    businessLabelEs: "una instituci\u00f3n educativa",
     industryLabel: "institution type",
+    industryLabelEs: "tipo de instituci\u00f3n",
     employeeLabel: "students.",
+    employeeLabelEs: "estudiantes.",
   },
   architecture: {
     heading: "Get an architecture insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro de arquitectura.",
     subtext: "Answer a few quick questions about your firm.",
-    insuranceTypesBusiness: ["Professional Liability (E&O)", "General Liability", "Cyber Liability", "Project-Specific"],
+    subtextEs: "Responda algunas preguntas sobre su firma.",
+    insuranceTypesBusiness: ["Professional Liability (E&O)", "General Liability", "Cyber Liability", "Project-Specific", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad Profesional (E&O)", "Responsabilidad General", "Responsabilidad Cibern\u00e9tica", "Espec\u00edfico de Proyecto", "No Estoy Seguro"],
     industries: ["Residential Architecture", "Commercial Architecture", "Landscape Architecture", "Interior Design", "Urban Planning", "Structural Engineering", "Sustainable Design", "Historic Preservation", "Multi-Discipline", "Other"],
+    industriesEs: ["Arquitectura Residencial", "Arquitectura Comercial", "Arquitectura Paisaj\u00edstica", "Dise\u00f1o de Interiores", "Planificaci\u00f3n Urbana", "Ingenier\u00eda Estructural", "Dise\u00f1o Sustentable", "Preservaci\u00f3n Hist\u00f3rica", "Multi-Disciplina", "Otro"],
     employeeCounts: ["Solo", "2-10", "11-25", "26-50", "50+"],
     businessLabel: "an architecture firm",
+    businessLabelEs: "una firma de arquitectura",
     industryLabel: "practice type",
+    industryLabelEs: "tipo de pr\u00e1ctica",
     employeeLabel: "staff.",
+    employeeLabelEs: "personal.",
   },
   'pool-contractors': {
     heading: "Get a pool contractor insurance quote.",
+    headingEs: "Obtenga una cotizaci\u00f3n de seguro para contratistas de piscinas.",
     subtext: "Answer a few quick questions about your business.",
-    insuranceTypesBusiness: ["General Liability", "Completed Operations", "Workers' Comp", "Pollution Liability"],
+    subtextEs: "Responda algunas preguntas sobre su negocio.",
+    insuranceTypesBusiness: ["General Liability", "Completed Operations", "Workers' Comp", "Pollution Liability", "Not Sure \u2014 Help Me Decide"],
+    insuranceTypesBusinessEs: ["Responsabilidad General", "Operaciones Completadas", "Comp. Laboral", "Responsabilidad por Contaminaci\u00f3n", "No Estoy Seguro"],
     industries: ["Pool Builder", "Hot Tub Installer", "Pool Service/Maintenance", "Pool Remodeling", "Commercial Pools", "Water Features", "Equipment Supplier", "Spa Contractor", "Pool Demolition", "Other"],
+    industriesEs: ["Constructor de Piscinas", "Instalador de Jacuzzis", "Servicio/Mantenimiento", "Remodelaci\u00f3n de Piscinas", "Piscinas Comerciales", "Fuentes de Agua", "Proveedor de Equipo", "Contratista de Spa", "Demolici\u00f3n de Piscinas", "Otro"],
     employeeCounts: ["1-5", "6-15", "16-30", "31-50", "50+"],
     businessLabel: "a pool contractor",
+    businessLabelEs: "un contratista de piscinas",
     industryLabel: "service type",
+    industryLabelEs: "tipo de servicio",
     employeeLabel: "crew members.",
+    employeeLabelEs: "miembros del equipo.",
   },
 };
 
@@ -463,9 +575,6 @@ export default function GetStarted() {
   });
 
   const vConfig = vertical ? VERTICALS[vertical] : undefined;
-  const activeInsuranceTypesBusiness = vConfig?.insuranceTypesBusiness || INSURANCE_TYPES_BUSINESS;
-  const activeIndustries = vConfig?.industries || INDUSTRIES;
-  const activeEmployeeCounts = vConfig?.employeeCounts || EMPLOYEE_COUNTS;
 
   // When vertical is set, start with modal open on step 3 (skip landing + step 1)
   const [modalOpen, setModalOpen] = useState(() => {
@@ -517,12 +626,29 @@ export default function GetStarted() {
   const toggleLang = () => {
     const next: Lang = lang === "en" ? "es" : "en";
     setLang(next);
+    // Clear selections that use language-dependent values
+    setInsuranceTypes([]);
+    setIndustry("");
     try { localStorage.setItem(LANG_KEY, next); } catch { /* ignore */ }
   };
 
   const t = i18n[lang];
-  const heading = vConfig?.heading || t.landingHeading;
-  const subtext = vConfig?.subtext || t.landingSubtext;
+
+  // Language-aware active arrays
+  const activeInsuranceTypesBusiness = lang === 'es' && vConfig?.insuranceTypesBusinessEs
+    ? vConfig.insuranceTypesBusinessEs
+    : vConfig?.insuranceTypesBusiness || INSURANCE_TYPES_BUSINESS;
+  const activeIndustries = lang === 'es' && vConfig?.industriesEs
+    ? vConfig.industriesEs
+    : vConfig?.industries || INDUSTRIES;
+  const activeEmployeeCounts = vConfig?.employeeCounts || EMPLOYEE_COUNTS;
+
+  // Language-aware heading, subtext, and labels
+  const heading = lang === 'es' && vConfig?.headingEs ? vConfig.headingEs : vConfig?.heading || t.landingHeading;
+  const subtext = lang === 'es' && vConfig?.subtextEs ? vConfig.subtextEs : vConfig?.subtext || t.landingSubtext;
+  const businessLabel = lang === 'es' && vConfig?.businessLabelEs ? vConfig.businessLabelEs : vConfig?.businessLabel || t.aBusiness;
+  const industryLabelText = lang === 'es' && vConfig?.industryLabelEs ? vConfig.industryLabelEs : vConfig?.industryLabel || t.industry;
+  const employeeLabelText = lang === 'es' && vConfig?.employeeLabelEs ? vConfig.employeeLabelEs : vConfig?.employeeLabel || t.withEmployees;
 
 
   // ---- Pre-fill from URL params ----
@@ -758,6 +884,19 @@ export default function GetStarted() {
     return () => { document.body.style.overflow = prev; };
   }, [modalOpen]);
 
+  // Prevent page-level scrollbar in embed/vertical mode
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('vertical') || params.get('embed')) {
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.height = "100%";
+        document.body.style.height = "100%";
+      }
+    } catch { /* ignore */ }
+  }, []);
+
   // Sync html lang attribute with language toggle
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -782,7 +921,7 @@ export default function GetStarted() {
   };
 
   // Display label for userType in dropdown trigger
-  const userTypeLabel = userType === "individual" ? t.anIndividual : userType === "business" ? (vConfig?.businessLabel || t.aBusiness) : "";
+  const userTypeLabel = userType === "individual" ? t.anIndividual : userType === "business" ? businessLabel : "";
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--background)" }}>
@@ -894,11 +1033,10 @@ export default function GetStarted() {
                     value={userTypeLabel}
                     onChange={(label) => {
                       // Map display label back to internal value
-                      const bLabel = vConfig?.businessLabel || t.aBusiness;
-                      const internal = label === t.anIndividual ? "individual" : label === bLabel ? "business" : label;
+                      const internal = label === t.anIndividual ? "individual" : label === businessLabel ? "business" : label;
                       handleUserTypeChange(internal);
                     }}
-                    options={[t.anIndividual, vConfig?.businessLabel || t.aBusiness]}
+                    options={[t.anIndividual, businessLabel]}
                     placeholder="select one"
                     ariaLabel="I am"
                     t={t}
@@ -1042,7 +1180,7 @@ export default function GetStarted() {
                     value={industry}
                     onChange={setIndustry}
                     options={activeIndustries}
-                    placeholder={vConfig?.industryLabel || t.industry}
+                    placeholder={industryLabelText}
                     ariaLabel="Industry"
                     t={t}
                     labelMap={(v) => tLabel(t, v, industryKeys)}
@@ -1058,7 +1196,7 @@ export default function GetStarted() {
                         ariaLabel="Employee count"
                         t={t}
                       />
-                      {" "}{vConfig?.employeeLabel || t.withEmployees}
+                      {" "}{employeeLabelText}
                     </span>
                   )}
                 </h1>
