@@ -615,6 +615,22 @@ export default function GetStarted() {
   // Announce step changes for a11y
   const [liveRegion, setLiveRegion] = useState("");
 
+  // Force modal open for vertical embeds (SSR workaround)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const v = params.get('vertical');
+      const embed = params.get('embed');
+      if (v || embed) {
+        setModalOpen(true);
+        if (v && VERTICALS[v]) {
+          setUserType("business");
+          setStep(3);
+        }
+      }
+    } catch {}
+  }, []);
+
   // ---- Language restore ----
   useEffect(() => {
     try {
@@ -925,22 +941,24 @@ export default function GetStarted() {
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--background)" }}>
-      {/* Landing */}
-      <div className="text-center fade-in">
-        <div className="mb-10 flex justify-center">
-          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
-            <rect width="60" height="60" rx="14" fill="#FFBF3C" />
-            <path d="M18 30 L26.5 38.5 L42 22" stroke="#25475E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      {/* Landing — hidden when embedded with a vertical */}
+      {!vertical && (
+        <div className="text-center fade-in">
+          <div className="mb-10 flex justify-center">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+              <rect width="60" height="60" rx="14" fill="#FFBF3C" />
+              <path d="M18 30 L26.5 38.5 L42 22" stroke="#25475E" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <h1 className="sentence-heading mb-4">{heading}</h1>
+          <p className="text-lg font-light mb-10" style={{ color: "var(--text-muted)" }}>
+            {subtext}
+          </p>
+          <button className="btn-primary" aria-label={t.getStarted} onClick={handleOpen}>
+            {t.getStarted}
+          </button>
         </div>
-        <h1 className="sentence-heading mb-4">{heading}</h1>
-        <p className="text-lg font-light mb-10" style={{ color: "var(--text-muted)" }}>
-          {subtext}
-        </p>
-        <button className="btn-primary" aria-label={t.getStarted} onClick={handleOpen}>
-          {t.getStarted}
-        </button>
-      </div>
+      )}
 
       {/* Aria live region */}
       <div
