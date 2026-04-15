@@ -865,6 +865,13 @@ export default function GetStarted() {
   }, [hasData, step]);
 
   const tryClose = () => {
+    if (vertical) {
+      // When embedded, skip confirmation — just close and notify parent
+      trackEvent("form_closed", { step });
+      setModalOpen(false);
+      try { window.parent.postMessage('insurance-form-close', '*'); } catch {}
+      return;
+    }
     if (hasData && step < 5) setShowConfirm(true);
     else {
       trackEvent("form_closed", { step });
@@ -876,6 +883,7 @@ export default function GetStarted() {
     trackEvent("form_closed", { step, confirmed: true });
     setShowConfirm(false);
     setModalOpen(false);
+    try { window.parent.postMessage('insurance-form-close', '*'); } catch {}
   };
 
   const handleOpen = () => {
@@ -1401,7 +1409,7 @@ export default function GetStarted() {
                     <button
                       className="btn-primary"
                       aria-label={t.done}
-                      onClick={() => setModalOpen(false)}
+                      onClick={() => { setModalOpen(false); try { window.parent.postMessage('insurance-form-close', '*'); } catch {} }}
                     >
                       {t.done}
                     </button>
