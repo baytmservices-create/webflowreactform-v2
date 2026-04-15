@@ -505,6 +505,18 @@ export function InsuranceForm({ apiUrl, vertical }: { apiUrl: string; vertical?:
       if (pCity) setCity(pCity);
       const pLang = params.get("lang");
       if (pLang === "es") setLang("es");
+
+      // When embedded as modal with a vertical, auto-open and skip to business step
+      const embed = params.get("embed");
+      if (embed === "modal" || vertical) {
+        setModalOpen(true);
+        if (vertical) {
+          // Skip individual/business selector — these are all business verticals
+          setUserType("business");
+          // Start on step 3 (business details) to skip step 1 (type selector)
+          setStep(3);
+        }
+      }
     } catch { /* ignore */ }
   }, []);
 
@@ -596,17 +608,39 @@ export function InsuranceForm({ apiUrl, vertical }: { apiUrl: string; vertical?:
     trackEvent("step_completed", { step, stepName: stepNames[step] ?? `step_${step}`, durationMs: duration });
   };
 
+  // Vertical flow: step 3 (business) → step 2 (personal) → step 4 (contact/submit)
+  const verticalStepOrder = [3, 2, 4];
+
   const nextStep = () => {
     completeStep();
     setDirection("forward");
-    if (step === 2 && !isBusiness) setStep(4);
-    else setStep(step + 1);
+    if (vertical) {
+      const currentIdx = verticalStepOrder.indexOf(step);
+      if (currentIdx >= 0 && currentIdx < verticalStepOrder.length - 1) {
+        setStep(verticalStepOrder[currentIdx + 1]);
+      } else {
+        setStep(step + 1);
+      }
+    } else {
+      if (step === 2 && !isBusiness) setStep(4);
+      else setStep(step + 1);
+    }
   };
 
   const prevStep = () => {
     setDirection("back");
-    if (step === 4 && !isBusiness) setStep(2);
-    else setStep(step - 1);
+    if (vertical) {
+      const currentIdx = verticalStepOrder.indexOf(step);
+      if (currentIdx <= 0) {
+        // First step in vertical flow — close the modal
+        setModalOpen(false);
+        return;
+      }
+      setStep(verticalStepOrder[currentIdx - 1]);
+    } else {
+      if (step === 4 && !isBusiness) setStep(2);
+      else setStep(step - 1);
+    }
   };
 
   const handleSubmit = async () => {
@@ -988,6 +1022,38 @@ export function InsuranceForm({ apiUrl, vertical }: { apiUrl: string; vertical?:
                     </span>
                   )}
                 </h1>
+
+                {businessComplete && vertical && (
+                  <div style={{ marginTop: 32 }} className="ifw-fade-in">
+                    <p className="ifw-divider-text" style={{ marginBottom: 16 }}>
+                      {t.selectAllThatApply}
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {activeInsuranceTypesBusiness.map((type) => {
+                        const selected = insuranceTypes.includes(type);
+                        return (
+                          <button
+                            key={type}
+                            type="button"
+                            aria-pressed={selected}
+                            className={`ifw-pill-multi ${selected ? "selected ifw-pill-bounce" : ""}`}
+                            onClick={() => toggleInsuranceType(type)}
+                            onAnimationEnd={(e) => {
+                              (e.currentTarget as HTMLButtonElement).classList.remove("ifw-pill-bounce");
+                            }}
+                          >
+                            {selected && (
+                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }} aria-hidden="true">
+                                <path d="M2 7L5.5 10.5L12 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                            {type}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 {businessComplete && (
                   <div style={{ marginTop: 40 }} className="ifw-fade-in">
