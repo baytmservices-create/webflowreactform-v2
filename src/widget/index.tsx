@@ -25,10 +25,10 @@ function mount(selector: string, config: WidgetConfig) {
 document.addEventListener("DOMContentLoaded", () => {
   const el = document.getElementById("insurance-form");
   if (el) {
-    const apiUrl = el.dataset.apiUrl;
-    const vertical = el.dataset.vertical;
-    if (apiUrl) {
-      mount("#insurance-form", { apiUrl, vertical });
-    }
+    // Read from element attributes OR URL params (for iframe embed)
+    const params = new URLSearchParams(window.location.search);
+    const apiUrl = el.dataset.apiUrl || params.get("apiUrl") || window.location.origin + "/api/submit";
+    const vertical = el.dataset.vertical || params.get("vertical") || undefined;
+    mount("#insurance-form", { apiUrl, vertical });
   }
 });
